@@ -11,8 +11,8 @@
 </head>
 <body>
   <div class = "container container--box-shadow">
-    <div class = "container--menu-bar">
-        <span id = "menu-title"><b>Checkout</b></span>
+    <div class = "container--menu-bar" style="height: 50px;">
+        <span id = "menu-title">Checkout</span>
         <span id = "menu-title-options">
             <ul class="breadcrumb">
                 <li><a href="#">Shipping</a></li>
@@ -23,10 +23,57 @@
         <span id ="close-container"><img src="./images/icon-close.png" ></img></span>
     </div>
 
-    <div class = "container--menu-bar">
-        <span id = "payment-block">Payment Method</span>
-        <span id = "cart-block">Cart</span>
+
+
+
+
+
+    <div class = "container--menu-bar container--menu-bar__options">
+
+      <div class="transaction-block">
+        <p>Wallet</p>
+        <hr>
+        <span>
+          <img src="images/discover-network.jpg" alt="discover-network">
+          <img src="images/master-card.png" alt="master-card">
+          <img src="images/visa-card.png" alt="visa-card">
+        </span>
+        <br>
+        <p>New Card</p>
+        <hr>
+        <div>
+          <div class="form-container">
+            <form method="POST" enctype="application/x-www-form-urlencoded">
+                <input class="input-style" type="text" name="Name" placeholder="Name on Card" required/>
+                <input class="input-style" type="text" name="Name" placeholder="xxxx xxxx xxxx xxxx" required/>
+                <div style="display: flex; flex-direction: row; width: 100%;">
+                  <input id="card-expiry"  "text" name="Name" placeholder="MM/YY" required/>
+                  <input id="cvv" type="text" name="Name" placeholder="CVV" required/>
+                </div>
+                <input id="cvv" type="submit" name="Name" placeholder="CVV" width="100%"/>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    
+      <div class="cart-block" style="background-color: red;">
+       
+      </div>
+
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
   </div>
 </body>
 </html>

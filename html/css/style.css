@@ -1,7 +1,7 @@
 .container {
-  width: 1100px;
-  height: 80px;
-  margin: 100px auto;
+  width: auto;
+  height: auto;
+  margin: 30px;
   border: 1px solid silver;
   display: flex;
   flex-direction: column;
@@ -9,14 +9,6 @@
 
 .container--box-shadow {
   box-shadow: 10px 15px 7px silver;
-}
-
-.container--menu-bar {
-  display: flex;
-  align-items: baseline;
-  flex-direction: row;
-  border: 1px solid silver;
-  height: 50px;
 }
 
 #menu-title {
@@ -28,24 +20,6 @@
 #menu-title-options {
   flex-grow: 7.8;
   font-family: 'Times New Roman';
-}
-
-#close-container {
-  padding: 8px;
-}
-
-#payment-block {
-  padding: 8px;
-  width: 55%;
-  font-family: 'Times New Roman';
-}
-
-#cart-block {
-  text-align: center;
-  padding: 8px;
-  width: 45%;
-  font-family: 'Times New Roman';
-  background-color: aquamarine
 }
 
 .container--menu-bar .breadcrumb li {
@@ -66,3 +40,114 @@
 .container--menu-bar .breadcrumb li a:hover {
   text-decoration: underline;
 }
+
+#close-container {
+  padding: 8px;
+}
+
+.container--menu-bar {
+  display: flex;
+  align-items: baseline;
+  flex-direction: row;
+  border: 1px solid silver;
+}
+
+.container--menu-bar__options {
+  height: auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.container--menu-bar__options .transaction-block {
+  width: 60%;
+  margin: 10px;
+  flex-wrap: wrap;
+}
+
+.transaction-block img {
+  width: 240px;
+  height: 200px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.form-container{
+  width: 52.3%;
+}
+
+.form-container input{
+  margin-top: 10px;
+  height: 30px;
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
