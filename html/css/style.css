@@ -1,0 +1,53 @@
+.container {
+  width: 1100px;
+  height: 80px;
+  margin: 100px auto;
+  border: 1px solid silver;
+  display: flex;
+  flex-direction: column;
+}
+
+.container--box-shadow {
+  box-shadow: 10px 15px 7px silver;
+}
+
+.container--menu-bar {
+  display: flex;
+  align-items: baseline;
+  flex-direction: row;
+  border: 1px solid silver;
+  height: 50px;
+}
+
+#menu-title {
+  padding: 8px;
+  flex-basis: 200px;
+  font-family: 'Times New Roman';
+}
+
+#menu-title-options {
+  flex-grow: 7.8;
+  font-family: 'Times New Roman';
+}
+
+#close-container {
+  padding: 8px;
+}
+
+#payment-block {
+  padding: 8px;
+  width: 60%;
+  font-family: 'Times New Roman';
+}
+
+#cart-block {
+  text-align: center;
+  padding: 8px;
+  width: 40%;
+  font-family: 'Times New Roman';
+  background-color: aquamarine
+}
+
+ul.breadcrumb li {
+  display: inline;
+}
