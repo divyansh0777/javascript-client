@@ -36,18 +36,33 @@
 
 #payment-block {
   padding: 8px;
-  width: 60%;
+  width: 55%;
   font-family: 'Times New Roman';
 }
 
 #cart-block {
   text-align: center;
   padding: 8px;
-  width: 40%;
+  width: 45%;
   font-family: 'Times New Roman';
   background-color: aquamarine
 }
 
-ul.breadcrumb li {
+.container--menu-bar .breadcrumb li {
   display: inline;
+}
+
+.container--menu-bar .breadcrumb li a{
+  color: black;
+  font-family: 'Times New Roman';
+  text-decoration: none;
+}
+
+.container--menu-bar .breadcrumb li+li:before {
+  padding: 8px;
+  content: "/";
+}
+
+.container--menu-bar .breadcrumb li a:hover {
+  text-decoration: underline;
 }
