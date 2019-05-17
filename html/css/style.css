@@ -168,8 +168,15 @@ html {
   margin-top: 35px;
   justify-content: space-between;
   background-color: #4caf50;
+  cursor: pointer;
+  font-size: 130%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+
 }
 
+.form-third-div input:hover {
+  background-color: #3f9942;
+}
 
 
 
