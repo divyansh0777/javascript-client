@@ -10,7 +10,7 @@ html {
 
 .container {
   height: auto;
-  margin: 30px;
+  margin: 30px 100px;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
@@ -88,7 +88,7 @@ html {
 }
 
 .container--menu-bar__options .transaction-block {
-  width: 60%;
+  flex: 3;
   margin: 10px;
   display: flex;
   flex-direction: column;
@@ -194,7 +194,7 @@ html {
   display: flex;
   flex-direction: column;
   background-color: rgb(230, 234, 236);
-  width: 40%;
+  flex: 2;
 }
 
 .cart-block .upper-div {
@@ -251,3 +251,62 @@ html {
 .cart-block .lower-div div {
   padding: 4px;
 }
+
+@media screen and (max-width: 996px) {
+  .container {
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 996px) {
+  .container--menu-bar__options .transaction-block {
+    flex: 1;
+  }
+
+  .cart-block {
+    flex: 1;
+  }
+
+  .container--menu-bar .breadcrumb {
+    display: none;
+  }
+  
+}
+
+@media screen and (max-width: 600px) {
+  .container--menu-bar__options {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .transaction-block {
+    order: 2;
+  }
+
+  .transaction-block .card-images {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px;
+  }
+
+  .container--menu-bar .breadcrumb {
+    display: none;
+  }
+  
+  .form-container {
+    padding: 100px;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+
+
+
+
+
+
+
+
