@@ -4,10 +4,6 @@ html {
   background-position: fixed;
 }
 
-
-
-
-
 .container {
   height: auto;
   margin: 30px 100px;
@@ -67,17 +63,6 @@ html {
   border-bottom: 1px solid black;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 .container--menu-bar__options {
   height: 100%;
   display: flex;
@@ -114,18 +99,6 @@ html {
   max-width: 100%;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 .form-container {
   display: flex;
   flex-direction: row;
@@ -160,6 +133,7 @@ html {
   border-radius: 5px;
   min-height: 30px;
   margin: 5px;
+  width: 100%;
 }
 
 .form-third-div input {
@@ -171,24 +145,11 @@ html {
   cursor: pointer;
   font-size: 130%;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-
 }
 
 .form-third-div input:hover {
   background-color: #3f9942;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 .cart-block {
   display: flex;
@@ -296,17 +257,9 @@ html {
   }
   
   .form-container {
-    padding: 100px;
-    width: 100%;
-    height: 100%;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
   }
 }
-
-
-
-
-
-
-
-
-

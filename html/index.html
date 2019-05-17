@@ -7,7 +7,6 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>My App</title>
   <link rel="stylesheet" href="http://yui.yahooapis.com/3.18.1/build/cssreset/cssreset-min.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
@@ -49,34 +48,34 @@
             <p>New Card</p>
             <hr>
           </div>
-              <div class="form-container">
-                      <div style="flex: 1;"></div>
-                      <div class="form-div" style="flex: 1;">
-                        <form method="POST" enctype="application/x-www-form-urlencoded">
-                          <div class="form-first-div">
-                            <div style="flex: 1;">
-                              <input class="input-style" type="text" name="Name" placeholder="Name on Card" required />
-                            </div>
-                            <div style="flex: 1;">
-                              <input class="input-style" type="number" maxlength="16" name="Name"
-                                placeholder="XXXX XXXX XXXX X264" required />
-                            </div>
-                          </div>
-                          <div class="form-second-div">
-                            <div>
-                              <input id="card-expiry" type="text" name="Name" placeholder="MM/YY" required />
-                            </div>
-                            <div>
-                              <input id="cvv" type="password" maxlength="3" name="Name" placeholder="CVV" required />
-                            </div>
-                          </div>
-                          <div class="form-third-div">
-                            <input id="submit" type="submit" name="Name" placeholder="CVV" width="100%" />
-                          </div>
-                        </form>
-                      </div>
-                      <div style="flex: 1;"></div>
-              </div>
+          <div class="form-container">
+            <div style="flex: 1;"></div>
+            <div class="form-div" style="flex: 1;">
+              <form method="POST" enctype="application/x-www-form-urlencoded">
+                <div class="form-first-div">
+                  <div style="flex: 1;">
+                    <input class="input-style" type="text" name="Name" placeholder="Name on Card" required autofocus />
+                  </div>
+                  <div style="flex: 1;">
+                    <input class="input-style" type="number" maxlength="16" name="Name"
+                      placeholder="XXXX XXXX XXXX X264" required />
+                  </div>
+                </div>
+                <div class="form-second-div">
+                  <div>
+                    <input id="card-expiry" type="text" name="Name" placeholder="MM/YY" required />
+                  </div>
+                  <div>
+                    <input id="cvv" type="password" maxlength="3" name="Name" placeholder="CVV" required />
+                  </div>
+                </div>
+                <div class="form-third-div">
+                  <input id="submit" type="submit" name="Name" placeholder="CVV" width="100%" />
+                </div>
+              </form>
+            </div>
+            <div style="flex: 1;"></div>
+          </div>
         </div>
       </div>
       <div class="cart-block">
@@ -161,7 +160,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
