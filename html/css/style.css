@@ -4,13 +4,9 @@ html {
   background-position: fixed;
 }
 
-
-
-
-
 .container {
   height: auto;
-  margin: 30px;
+  margin: 30px 100px;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
@@ -67,17 +63,6 @@ html {
   border-bottom: 1px solid black;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 .container--menu-bar__options {
   height: 100%;
   display: flex;
@@ -87,9 +72,68 @@ html {
   width: 100%;
 }
 
-.container--menu-bar__options .payment-block {
-  width: 60%;
+.container--menu-bar__options .transaction-block {
+  flex: 3;
   margin: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction-block .select-card .submit-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.transaction-block .card-images {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.transaction-block .card-images div {
+  flex: 1;
+  padding: 10px;
+}
+
+.transaction-block .card-images div img {
+  max-width: 100%;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.form-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-first-div {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-first-div input {
+  border-radius: 5px;
+  width: 100%;
+  min-height: 30px;
+  margin-top: 8px;
+}
+
+.form-second-div {
+  display: flex;
+  flex-direction: row;
+  margin-top: 8px;
+}
+
+.form-second-div input {
+  border-radius: 5px;
+  min-height: 30px;
+  margin: 5px;
+  width: 100%;
 }
 
 .form-third-div input {
@@ -101,31 +145,121 @@ html {
   cursor: pointer;
   font-size: 130%;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-
 }
 
 .form-third-div input:hover {
   background-color: #3f9942;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 .cart-block {
   display: flex;
   flex-direction: column;
   background-color: rgb(230, 234, 236);
-  width: 40%;
-  padding: 10px;
-  background-color: aqua;
+  flex: 2;
 }
 
+.cart-block .upper-div {
+  /* background-color: blue; */
+  flex: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.cart-block .upper-div .cart-item {
+  width: 98%;
+  display: flex;
+  flex-direction: row;
+  height: 38%;
+  padding: 5px;
+  border-top: 1px solid rgb(165, 165, 165);
+  border-left: 1px solid rgb(165, 165, 165);
+}
+
+.cart-block .upper-div .cart-item div {
+  height: 90%;
+  padding: 3px;
+}
+
+.cart-block .upper-div .cart-item img {
+  width: 100%;
+  height: 100%;
+}
+
+.cart-block .lower-div {
+  border-left: 1px solid rgb(165, 165, 165);
+  display: flex;
+  flex-direction: column;
+  flex: 4;
+}
+
+.cart-block .lower-div .checkout-details {
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid grey;
+}
+
+.cart-block .lower-div .price-details {
+  text-align: end;
+}
+
+.cart-block .lower-div .total {
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid grey;
+}
+
+.cart-block .lower-div div {
+  padding: 4px;
+}
+
+@media screen and (max-width: 996px) {
+  .container {
+    margin-right: 20px;
+    margin-left: 20px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 996px) {
+  .container--menu-bar__options .transaction-block {
+    flex: 1;
+  }
+
+  .cart-block {
+    flex: 1;
+  }
+
+  .container--menu-bar .breadcrumb {
+    display: none;
+  }
+  
+}
+
+@media screen and (max-width: 600px) {
+  .container--menu-bar__options {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .transaction-block {
+    order: 2;
+  }
+
+  .transaction-block .card-images {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px;
+  }
+
+  .container--menu-bar .breadcrumb {
+    display: none;
+  }
+  
+  .form-container {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+}
