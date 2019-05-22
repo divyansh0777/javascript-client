@@ -92,7 +92,38 @@ html {
   margin: 10px;
 }
 
-.container--menu-bar__options .cart-block {
+.form-third-div input {
+  width: 100%;
+  height: 50px;
+  margin-top: 35px;
+  justify-content: space-between;
+  background-color: #4caf50;
+  cursor: pointer;
+  font-size: 130%;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+
+.form-third-div input:hover {
+  background-color: #3f9942;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.cart-block {
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(230, 234, 236);
   width: 40%;
   padding: 10px;
   background-color: aqua;
