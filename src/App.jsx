@@ -1,11 +1,35 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
-import { InputDemo } from './pages';
+import {
+  TextFieldDemo, BasicSliderDemo, InputDemo, FormValidationDemo,
+} from './pages';
 import AppCss from './AppCss';
 
 function App() {
   return (
-    <div style={AppCss.mainDiv}>
-      <InputDemo />
+  /* -------------Day 3-----------------------------------------*/
+
+  // <div>
+  //   <TextFieldDemo />
+  // </div>
+
+  /* -------------Day 4-----------------------------------------*/
+
+  // <div style={AppCss.mainDiv}>
+  //   <BasicSliderDemo />
+  //   <TextFieldDemo />
+  // </div>
+
+  /* -------------Day 5-----------------------------------------*/
+
+  // <div style={AppCss.mainDiv}>
+  //   <InputDemo />
+  // </div>
+
+  /* -------------Day 6-----------------------------------------*/
+
+    <div>
+      <FormValidationDemo />
     </div>
   );
 }
