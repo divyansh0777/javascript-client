@@ -3,3 +3,4 @@ export { BasicSliderDemo } from './SliderDemo';
 export { InputDemo } from './InputDemo';
 export { FormValidationDemo } from './FormValidationDemo';
 export { MathDemo } from './MathDemo';
+export { Trainee } from './Trainee';
