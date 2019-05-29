@@ -127,7 +127,6 @@ class AddDialog extends Component {
 	    name, email, password, rePassword,
 	  }, { abortEarly: false })
 	    .then((result) => {
-	      console.log('getError', this.state.getError);
 	      this.setState({
 	        isError: false,
 	        getError: {},
@@ -166,13 +165,14 @@ class AddDialog extends Component {
 			>
 				<DialogTitle id="simple-dialog-title">Add Your Trainee Details</DialogTitle>
 				<DialogContent>
-					<div>
+					<form>
 						<Grid container spacing={2}>
 							<Grid item xs={12}>
 								<FormControl fullWidth>
 									<TextField
 										error={nameTouched && !!this.getFieldError('name')}
-										helperText={nameTouched && this.getFieldError('name')}
+                    helperText={nameTouched && this.getFieldError('name')}
+                    autoComplete="on"
 										autoFocus
 										margin="dense"
 										id="name"
@@ -187,7 +187,8 @@ class AddDialog extends Component {
 								<FormControl fullWidth>
 									<TextField
 										error={emailTouched && !!this.getFieldError('email')}
-										helperText={emailTouched && this.getFieldError('email')}
+                    helperText={emailTouched && this.getFieldError('email')}
+                    autoComplete="on"
 										margin="dense"
 										id="email"
 										label="Email Address"
@@ -198,51 +199,55 @@ class AddDialog extends Component {
 								</FormControl>
 							</Grid>
 							<Grid item xs={12}>
-								<Grid container spacing={2} fullWidth>
+								<Grid container spacing={2}>
 									<Grid item xs={6}>
-										<FormControl fullWidth>
-											<InputLabel htmlFor="adornment-password">Password</InputLabel>
-											<Input
-												error={passwordTouched && !!this.getFieldError('password')}
-												id="adornment-password"
+										{/* <FormControl fullWidth> */}
+											<TextField
+                        error={passwordTouched && !!this.getFieldError('password')}
+                        helperText={passwordTouched && this.getFieldError('password')}
+                        autoComplete="on"
+                        label="Password"
 												type={showPassword ? 'text' : 'password'}
                         onFocus={this.handleTouch('passwordTouched')}
                         onChange={this.handlePassword}
-												endAdornment={(
-													<InputAdornment position="end">
-														<IconButton aria-label="Toggle password visibility" onClick={this.handleClickShowPassword}>
-															{showPassword ? <Visibility /> : <VisibilityOff />}
-														</IconButton>
-													</InputAdornment>
-												)}
+												InputProps={{
+												  endAdornment:
+                           <InputAdornment position="end">
+                            <IconButton aria-label="Toggle password visibility" onClick={this.handleClickShowRePassword}>
+                              {showRePassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                           </InputAdornment>,
+												}}
 											/>
-                      <Paper>{passwordTouched && this.getFieldError('password')}</Paper>
-										</FormControl>
+                      {/* <Paper>{passwordTouched && this.getFieldError('password')}</Paper> */}
+										{/* </FormControl> */}
 									</Grid>
 									<Grid item xs={6}>
 										<FormControl fullWidth>
-											<InputLabel htmlFor="adornment-password">Re-Enter Password</InputLabel>
-											<Input
-												error={rePasswordTouched && !!this.getFieldError('rePassword')}
-												id="adornment-password"
+											<TextField
+                        error={rePasswordTouched && !!this.getFieldError('rePassword')}
+                        helperText={rePasswordTouched && this.getFieldError('rePassword')}
+                        autoComplete="on"
+                        label="Re-Enter Password"
 												type={showRePassword ? 'text' : 'password'}
                         onFocus={this.handleTouch('rePasswordTouched')}
-												onChange={this.handleRePassword}
-												endAdornment={(
-													<InputAdornment position="end">
-														<IconButton aria-label="Toggle password visibility" onClick={this.handleClickShowRePassword}>
-															{showRePassword ? <Visibility /> : <VisibilityOff />}
-														</IconButton>
-													</InputAdornment>
-											)}
+                        onChange={this.handleRePassword}
+                        InputProps={{
+                          endAdornment:
+                           <InputAdornment position="end">
+                            <IconButton aria-label="Toggle password visibility" onClick={this.handleClickShowRePassword}>
+                              {showRePassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                           </InputAdornment>,
+                        }}
 											/>
-                      <Paper>{passwordTouched && this.getFieldError('rePassword')}</Paper>
+                      {/* <Paper>{passwordTouched && this.getFieldError('rePassword')}</Paper> */}
 										</FormControl>
 									</Grid>
 								</Grid>
 							</Grid>
 						</Grid>
-					</div>
+					</form>
 				</DialogContent>
 				<DialogActions>
 				<Button onClick={this.handleClose} color="primary">
