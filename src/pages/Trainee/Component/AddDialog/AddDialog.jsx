@@ -201,7 +201,7 @@ class AddDialog extends Component {
 							<Grid item xs={12}>
 								<Grid container spacing={2}>
 									<Grid item xs={6}>
-										{/* <FormControl fullWidth> */}
+										<FormControl fullWidth>
 											<TextField
                         error={passwordTouched && !!this.getFieldError('password')}
                         helperText={passwordTouched && this.getFieldError('password')}
@@ -219,8 +219,7 @@ class AddDialog extends Component {
                            </InputAdornment>,
 												}}
 											/>
-                      {/* <Paper>{passwordTouched && this.getFieldError('password')}</Paper> */}
-										{/* </FormControl> */}
+										</FormControl>
 									</Grid>
 									<Grid item xs={6}>
 										<FormControl fullWidth>
