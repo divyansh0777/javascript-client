@@ -1,10 +1,20 @@
+/* eslint-disable react/jsx-indent */
+/* eslint-disable indent */
+/* eslint-disable no-tabs */
 import React from 'react';
-import { TextFieldDemo } from './pages';
+import { TextFieldDemo, BasicSliderDemo } from './pages';
+import AppCss from './AppCss';
 
-function App(props) {
-
+function App() {
   return (
-    <TextFieldDemo></TextFieldDemo>
+    <div style={AppCss.mainDiv}>
+			<div style={AppCss.upperDiv}>
+				<BasicSliderDemo />
+			</div>
+			<div style={AppCss.lowerDiv}>
+				<TextFieldDemo />
+			</div>
+    </div>
   );
 }
 
