@@ -27,6 +27,7 @@ const useStyles = theme => ({
   paper: {
     padding: theme.spacing(4, 11),
     marginTop: theme.spacing(5),
+    marginBottom: theme.spacing(5),
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',

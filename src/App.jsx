@@ -4,9 +4,15 @@
 /* eslint-disable no-tabs */
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { TextField, createMuiTheme, Typography } from '@material-ui/core';
+import {
+  TextField, createMuiTheme, Typography,
+} from '@material-ui/core';
+import {
+  BrowserRouter as Router, Route, Link, Switch,
+} from 'react-router-dom';
 import AppCss from './AppCss';
-import { NavBar } from './components';
+import { NavBar, Footer } from './Layouts';
+import { AuthRoute, PrivateRoute } from './Routes';
 import {
   TextFieldDemo,
   BasicSliderDemo,
@@ -16,7 +22,9 @@ import {
   Trainee,
   ChildrenDemo,
   Login,
+  NoMatch,
 } from './pages';
+
 
 function App() {
 /* -------------Day 4-----------------------------------------*/
@@ -74,21 +82,41 @@ function App() {
 
   // /* -------------Day 10-----------------------------------------*/
 
+  //   return (
+  //   // Navigational Bar---------------
+
+  //       <React.Fragment>
+  //         <NavBar />
+  //         <Trainee />
+  //       </React.Fragment>
+
+  //   // Login Form---------------------
+
+  //   // <React.Fragment>
+  //   //   <Login />
+  //   // </React.Fragment>
+
+  //   );
+  // }
+
+  // /* -------------Day 11-----------------------------------------*/
+
   return (
-  // Navigational Bar---------------
-
-      <React.Fragment>
-        <NavBar />
-        <Trainee />
-        <Login />
-      </React.Fragment>
-
-  // Login Form---------------------
-
-  // <React.Fragment>
-  //   <Login />
-  // </React.Fragment>
-
+    <React.Fragment>
+      <Router>
+        <Switch>
+          <AuthRoute exact path="/login" component={Login} />
+          <AuthRoute exact path="/" component={NavBar} />
+          <PrivateRoute exact path="/login/input-demo" component={InputDemo} />
+          <PrivateRoute exact path="/login/textfield-demo" component={TextFieldDemo} />
+          <PrivateRoute exact path="/login/children-demo" component={ChildrenDemo} />
+          <PrivateRoute exact path="/login/trainee" component={Trainee} />
+          <PrivateRoute exact path="/login/form-validation-demo" component={FormValidationDemo} />
+          <PrivateRoute exact path="/login/basic-slider-demo" component={BasicSliderDemo} />
+          <PrivateRoute component={NoMatch} />
+        </Switch>
+      </Router>
+    </React.Fragment>
   );
 }
 
