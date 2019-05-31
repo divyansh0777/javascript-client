@@ -7,7 +7,7 @@ export function TextFieldDemo() {
   return (
     <div style={mainDiv}>
       <Paragraph message="This is a Disabled Input" />
-      <TextField name="disabledInput" type="textField" isDisabled placeHolder="Disabled Input" isError={false} />
+      <TextField name="disabledInput" type="textField" disabled placeHolder="Disabled Input" isError={false} />
 
       <Paragraph message="A Valid Input" />
       <TextField name="validInput" type="textField" placeHolder="Enter any Text" isError={false} />
