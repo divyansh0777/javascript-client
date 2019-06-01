@@ -19,7 +19,7 @@ const useStyle = () => ({
     width: 200,
     height: 200,
   },
-  color:{
+  color: {
     color: '#6da9a9',
   },
 });
