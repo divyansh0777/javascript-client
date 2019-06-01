@@ -2,7 +2,6 @@ export default {
   select: {
     width: '80%',
     height: '40px',
-    backgroundColor: '#48caea',
     borderRadius: '6px',
   },
 
@@ -30,10 +29,6 @@ export default {
     height: '100%',
     width: '100%',
     alignItems: 'center',
-  },
-
-  radio: {
-    display: 'block',
   },
 
   submit: {
