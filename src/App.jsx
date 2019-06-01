@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable react/jsx-indent-props */
@@ -23,6 +24,7 @@ import {
   ChildrenDemo,
   Login,
   NoMatch,
+  TraineeList,
 } from './pages';
 
 
@@ -101,23 +103,43 @@ function App() {
 
   // /* -------------Day 11-----------------------------------------*/
 
+  //   return (
+  //     <React.Fragment>
+  //       <Router>
+  //         <Switch>
+  //           <AuthRoute exact path="/login" component={Login} />
+  //           <AuthRoute exact path="/" component={NavBar} />
+  //           <PrivateRoute exact path="/input-demo" component={InputDemo} />
+  //           <PrivateRoute exact path="/textfield-demo" component={TextFieldDemo} />
+  //           <PrivateRoute exact path="/children-demo" component={ChildrenDemo} />
+  //           <PrivateRoute exact path="/trainee" component={Trainee} />
+  //           <PrivateRoute exact path="/form-validation-demo" component={FormValidationDemo} />
+  //           <PrivateRoute exact path="/basic-slider-demo" component={BasicSliderDemo} />
+  //           <PrivateRoute component={NoMatch} />
+  //         </Switch>
+  //       </Router>
+  //     </React.Fragment>
+  //   );
+  // }
+
+  // /* -------------Day 11-----------------------------------------*/
+
   return (
     <React.Fragment>
       <Router>
         <Switch>
           <AuthRoute exact path="/login" component={Login} />
           <AuthRoute exact path="/" component={NavBar} />
-          <PrivateRoute exact path="/login/input-demo" component={InputDemo} />
-          <PrivateRoute exact path="/login/textfield-demo" component={TextFieldDemo} />
-          <PrivateRoute exact path="/login/children-demo" component={ChildrenDemo} />
-          <PrivateRoute exact path="/login/trainee" component={Trainee} />
-          <PrivateRoute exact path="/login/form-validation-demo" component={FormValidationDemo} />
-          <PrivateRoute exact path="/login/basic-slider-demo" component={BasicSliderDemo} />
+          <PrivateRoute exact path="/input-demo" component={InputDemo} />
+          <PrivateRoute exact path="/textfield-demo" component={TextFieldDemo} />
+          <PrivateRoute exact path="/children-demo" component={ChildrenDemo} />
+          <PrivateRoute path="/trainee/" component={Trainee} />
+          <PrivateRoute exact path="/form-validation-demo" component={FormValidationDemo} />
+          <PrivateRoute exact path="/basic-slider-demo" component={BasicSliderDemo} />
           <PrivateRoute component={NoMatch} />
         </Switch>
       </Router>
     </React.Fragment>
   );
 }
-
 export default App;

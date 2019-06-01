@@ -16,7 +16,7 @@ const theme = createMuiTheme({
       'cursive',
       'sans-serif',
     ].join(','),
-    fontSize: '10',
+    fontSize: '20',
   },
 });
 
