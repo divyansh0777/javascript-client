@@ -74,22 +74,34 @@ class FormValidationDemo extends Component {
 	/*---------------------------------*/
 
 	showRadio = () => {
-	  const { select } = this.state;
+	  const { select, radio } = this.state;
 
 	  if (select === 'Cricket') {
 	    return (
   <React.Fragment>
-    <Radio name="Cricketer" text="Wicket Keeper" value="Wicket Keeper" onClick={this.handleRadio} />
-    <Radio name="Cricketer" text="Batsman" value="Batsman" onClick={this.handleRadio} />
-    <Radio name="Cricketer" text="Bowler" value="Bowler" onClick={this.handleRadio} />
-    <Radio name="Cricketer" text="Fielder" value="Fielder" onClick={this.handleRadio} />
+		<div>
+			<Radio name="Cricketer" text="Wicket Keeper" value="Wicket Keeper" onChange={this.handleRadio} checked={radio === 'Wicket Keeper'} />
+		</div>
+		<div>
+			<Radio name="Cricketer" text="Batsman" value="Batsman" onChange={this.handleRadio} checked={radio === 'Batsman'} />
+		</div>
+		<div>
+			<Radio name="Cricketer" text="Bowler" value="Bowler" onChange={this.handleRadio} checked={radio === 'Bowler'} />
+		</div>
+		<div>
+			<Radio name="Cricketer" text="Fielder" value="Fielder" onChange={this.handleRadio} checked={radio === 'Fielder'} />
+		</div>
   </React.Fragment>
-	  	);
+	    );
 	  } if (select === 'Football') {
 	    return (
   <React.Fragment>
-    <Radio name="Football" text="Defender" value="Defender" onClick={this.handleRadio} />
-    <Radio name="Football" text="Striker" value="Striker" onClick={this.handleRadio} />
+		<div>
+			<Radio name="Football" text="Defender" value="Defender" onChange={this.handleRadio} checked={radio === 'Defender'} />
+		</div>
+		<div>
+			<Radio name="Football" text="Striker" value="Striker" onChange={this.handleRadio} checked={radio === 'Striker'} />
+		</div>
   </React.Fragment>
 	    );
 	  }
@@ -101,8 +113,10 @@ class FormValidationDemo extends Component {
 	/*---------------------------------*/
 
 	render() {
-	  const { select, isError, getError } = this.state;
-		console.log(this.state);
+	  const {
+	    select, isError, getError, name,
+	  } = this.state;
+	  console.log(this.state);
 	  return (
 
   <React.Fragment>
@@ -114,15 +128,16 @@ class FormValidationDemo extends Component {
           style={style.textBox}
           placeholder="Enter Name"
           onChange={this.handleName}
+          value={name}
           autoFocus
         />
 
-        <Paragraph style={style.error} text={getError && getError.name } />
+        <Paragraph style={style.error} text={getError && getError.name} />
 
         <br />
         <Paragraph style={style.paragraphStyle} text="Select game you play" />
         <br />
-        <Select style={style.select} onChange={this.handleSelect}>
+        <Select style={style.select} value={select} onChange={this.handleSelect}>
           <Option style={style.option} value="" text="Select" />
           <Option style={style.option} value="Cricket" text="Cricket" />
           <Option style={style.option} value="Football" text="Football" />
