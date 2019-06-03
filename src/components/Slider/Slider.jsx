@@ -12,13 +12,12 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
-import { Image } from '../image';
+import { Image } from '../Image';
 import { randomNumber, roundRobin } from '../../libs';
 import * as constant from '../../configs/constants';
 import style from './style';
 
 class BasicSlider extends Component {
-
 	state = {
 		index: 0,
 	}
@@ -64,7 +63,16 @@ class BasicSlider extends Component {
 	  return (
 	    <div style={style.imageDiv}>
 	      {
-	        <Image height={height} alt={altText.length ? altText[this.state.index] : defaultAltText} src={banners.length ? banners[this.state.index] : defaultBanner} />
+          <Image
+            height={height}
+            style={style.image}
+            alt={altText.length
+              ? altText[this.state.index]
+              : defaultAltText}
+            src={banners.length
+              ? banners[this.state.index]
+              : defaultBanner}
+          />
 	      }
   		</div>
 	  );
