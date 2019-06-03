@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-indent-props */
@@ -12,9 +13,9 @@ import {
 } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import { Route, Switch, Link } from 'react-router-dom';
-import { Paragraph } from '../../components';
+import { Paragraph, SimpleTable } from '../../components';
 import TraineeDetail from './TraineeDetail';
-import { traineeData } from './Data';
+import { traineeListData, traineeTableColumns, traineeTableId } from './Data';
 import { AddDialog } from './Component';
 
 class TraineeList extends Component {
@@ -69,7 +70,7 @@ class TraineeList extends Component {
 	  console.log(this.state);
 	  const { open } = this.state;
 	  const { match } = this.props;
-	  const cricketersList = traineeData.map(data => (
+	  const cricketersList = traineeListData.map(data => (
           <List>
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
@@ -86,7 +87,6 @@ class TraineeList extends Component {
 	  console.log('---LIS', this.props);
 	  return (
 			<React.Fragment>
-        <div>
 					<Button variant="contained" color="primary" onClick={this.handleOpen}>Add Trainee List</Button>
           {
             open
@@ -100,10 +100,10 @@ class TraineeList extends Component {
               )
               : <Paragraph text="Click Button to Show Dialog" />
           }
+          <SimpleTable tableId={traineeTableId} tableData={traineeListData} tableColumns={traineeTableColumns} />
           {
             cricketersList
           }
-        </div>
 			</React.Fragment>
 	  );
 	}

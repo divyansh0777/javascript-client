@@ -7,7 +7,7 @@ import {
   Paper, Grid, createMuiTheme, List, ListItem, Typography, Divider, Avatar,
 } from '@material-ui/core';
 import { withStyles, ThemeProvider } from '@material-ui/styles';
-import { traineeData } from './Data';
+import { traineeListData } from './Data';
 
 const useStyle = () => ({
   paper: {
@@ -40,7 +40,7 @@ const theme = createMuiTheme({
 class TraineeDetail extends Component {
   showDetail = (id) => {
     const { classes } = this.props;
-    const traineeDetails = traineeData.map(key => (
+    const traineeDetails = traineeListData.map(key => (
       key.id === id
         ? (
           <React.Fragment>
@@ -79,7 +79,7 @@ class TraineeDetail extends Component {
 
   getImage = (id) => {
     const { classes } = this.props;
-    const image = traineeData.map(key => (
+    const image = traineeListData.map(key => (
       key.id === id
         ? (
           <React.Fragment>

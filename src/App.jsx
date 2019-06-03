@@ -24,7 +24,6 @@ import {
   ChildrenDemo,
   Login,
   NoMatch,
-  TraineeList,
 } from './pages';
 
 
@@ -122,24 +121,45 @@ function App() {
   //   );
   // }
 
-  // /* -------------Day 11-----------------------------------------*/
+  // /* -------------Day 12-----------------------------------------*/
 
+  //   return (
+  //     <React.Fragment>
+  //       <Router>
+  //         <Switch>
+  //           <AuthRoute exact path="/login" component={Login} />
+  //           <AuthRoute exact path="/" component={NavBar} />
+  //           <PrivateRoute exact path="/input-demo" component={InputDemo} />
+  //           <PrivateRoute exact path="/textfield-demo" component={TextFieldDemo} />
+  //           <PrivateRoute exact path="/children-demo" component={ChildrenDemo} />
+  //           <PrivateRoute path="/trainee/" component={Trainee} />
+  //           <PrivateRoute exact path="/form-validation-demo" component={FormValidationDemo} />
+  //           <PrivateRoute exact path="/basic-slider-demo" component={BasicSliderDemo} />
+  //           <PrivateRoute component={NoMatch} />
+  //         </Switch>
+  //       </Router>
+  //     </React.Fragment>
+  //   );
+  // }
+
+  // /* -------------Day 13-----------------------------------------*/
   return (
-    <React.Fragment>
-      <Router>
-        <Switch>
-          <AuthRoute exact path="/login" component={Login} />
-          <AuthRoute exact path="/" component={NavBar} />
-          <PrivateRoute exact path="/input-demo" component={InputDemo} />
-          <PrivateRoute exact path="/textfield-demo" component={TextFieldDemo} />
-          <PrivateRoute exact path="/children-demo" component={ChildrenDemo} />
-          <PrivateRoute path="/trainee/" component={Trainee} />
-          <PrivateRoute exact path="/form-validation-demo" component={FormValidationDemo} />
-          <PrivateRoute exact path="/basic-slider-demo" component={BasicSliderDemo} />
-          <PrivateRoute component={NoMatch} />
-        </Switch>
-      </Router>
-    </React.Fragment>
+      <React.Fragment>
+        <Router>
+          <Switch>
+            <AuthRoute exact path="/login" component={Login} />
+            <AuthRoute exact path="/" component={NavBar} />
+            <PrivateRoute exact path="/input-demo" component={InputDemo} />
+            <PrivateRoute exact path="/textfield-demo" component={TextFieldDemo} />
+            <PrivateRoute exact path="/children-demo" component={ChildrenDemo} />
+            <PrivateRoute path="/trainee/" component={Trainee} />
+            <PrivateRoute exact path="/form-validation-demo" component={FormValidationDemo} />
+            <PrivateRoute exact path="/basic-slider-demo" component={BasicSliderDemo} />
+            <PrivateRoute component={NoMatch} />
+          </Switch>
+        </Router>
+      </React.Fragment>
   );
 }
+
 export default App;

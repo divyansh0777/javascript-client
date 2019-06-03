@@ -7,3 +7,4 @@ export { Submit } from './Submit';
 export { ResetFormButton } from './ResetFormButton';
 export { NavBar } from '../Layouts';
 export { Image } from './Image';
+export { SimpleTable } from './Simple Table';
