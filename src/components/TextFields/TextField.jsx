@@ -4,7 +4,7 @@ import style from './style';
 
 export function TextField(props) {
   const { errorTrue } = style;
-  const { isError, ...rest } = props;
+  const { text, isError, ...rest } = props;
   const styleObject = { ...rest.style };
 
   return (
