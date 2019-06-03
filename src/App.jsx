@@ -65,12 +65,31 @@ function App() {
 
   // /* -------------Day 9  -----------------------------------------*/
 
+  //   return (
+  //     	<React.Fragment>
+  //     		<Trainee />
+  //     	</React.Fragment>
+  //   );
+  // }
+
+  // /* -------------Day 10-----------------------------------------*/
+
   return (
-    	<React.Fragment>
-    		<Trainee />
-    	</React.Fragment>
+  // Navigational Bar---------------
+
+      <React.Fragment>
+        <NavBar />
+        <Trainee />
+        <Login />
+      </React.Fragment>
+
+  // Login Form---------------------
+
+  // <React.Fragment>
+  //   <Login />
+  // </React.Fragment>
+
   );
 }
-
 
 export default App;
