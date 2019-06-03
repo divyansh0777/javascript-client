@@ -174,7 +174,7 @@ class AddDialog extends Component {
 										error={nameTouched && !!this.getFieldError('name')}
                     helperText={nameTouched && this.getFieldError('name')}
                     autoComplete="on"
-										autoFocus
+                    autoFocus
 										margin="dense"
 										id="name"
 										label="Enter your name"

@@ -13,7 +13,7 @@ import {
 } from 'react-router-dom';
 import AppCss from './AppCss';
 import { NavBar, Footer } from './Layouts';
-import { AuthRoute, PrivateRoute } from './Routes';
+import { AuthRoute, PrivateRoute, StartRouting } from './Routes';
 import {
   TextFieldDemo,
   BasicSliderDemo,
@@ -105,17 +105,7 @@ function App() {
   //   return (
   //     <React.Fragment>
   //       <Router>
-  //         <Switch>
-  //           <AuthRoute exact path="/login" component={Login} />
-  //           <AuthRoute exact path="/" component={NavBar} />
-  //           <PrivateRoute exact path="/input-demo" component={InputDemo} />
-  //           <PrivateRoute exact path="/textfield-demo" component={TextFieldDemo} />
-  //           <PrivateRoute exact path="/children-demo" component={ChildrenDemo} />
-  //           <PrivateRoute exact path="/trainee" component={Trainee} />
-  //           <PrivateRoute exact path="/form-validation-demo" component={FormValidationDemo} />
-  //           <PrivateRoute exact path="/basic-slider-demo" component={BasicSliderDemo} />
-  //           <PrivateRoute component={NoMatch} />
-  //         </Switch>
+  //
   //       </Router>
   //     </React.Fragment>
   //   );
@@ -146,17 +136,7 @@ function App() {
   return (
       <React.Fragment>
         <Router>
-          <Switch>
-            <AuthRoute exact path="/login" component={Login} />
-            <AuthRoute exact path="/" component={NavBar} />
-            <PrivateRoute exact path="/input-demo" component={InputDemo} />
-            <PrivateRoute exact path="/textfield-demo" component={TextFieldDemo} />
-            <PrivateRoute exact path="/children-demo" component={ChildrenDemo} />
-            <PrivateRoute path="/trainee/" component={Trainee} />
-            <PrivateRoute exact path="/form-validation-demo" component={FormValidationDemo} />
-            <PrivateRoute exact path="/basic-slider-demo" component={BasicSliderDemo} />
-            <PrivateRoute component={NoMatch} />
-          </Switch>
+           <StartRouting />
         </Router>
       </React.Fragment>
   );
