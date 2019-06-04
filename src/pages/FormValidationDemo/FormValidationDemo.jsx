@@ -123,9 +123,9 @@ class FormValidationDemo extends Component {
 
 	render() {
 	  const {
-	    select, isError, getError, name, nameTouched, selectTouched, radioTouched,
+	    select, isError, getError, name, nameTouched, selectTouched, radioTouched, radio,
 	  } = this.state;
-	  console.log(this.state);
+	  console.log(name, select, radio);
 	  return (
 
   <React.Fragment>
@@ -135,7 +135,6 @@ class FormValidationDemo extends Component {
 
         <TextField
           style={style.textBox}
-          pattern="[A-Za-z]+"
           placeholder="Enter Name"
           onChange={this.handleName}
           onFocus={this.handleTouch('nameTouched')}
@@ -160,10 +159,11 @@ class FormValidationDemo extends Component {
         <br />
         <div>
           {
-						(select.length) ? this.showRadio() : <Paragraph style={style.paragraphStyle} text="Select options above for appropriate values" />
+            (select.length)
+              ? this.showRadio()
+              : <Paragraph style={style.paragraphStyle} text="Select options above for appropriate values" />
 					}
           <Paragraph style={style.error} text={radioTouched && getError ? getError.radio : ''} />
-
         </div>
         <br />
         <br />
@@ -174,7 +174,6 @@ class FormValidationDemo extends Component {
             value="Cancel"
             onClick={this.handleReset}
           />
-
           <Submit
             disabled={isError}
             style={style.submit}
