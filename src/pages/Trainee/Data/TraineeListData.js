@@ -3,23 +3,30 @@ import { getDateFormat } from './trainee';
 export const traineeTableId = '01';
 
 export const traineeTableColumns = [
-  {
-    field: 'name',
-    label: 'Name',
-    align: 'centre',
-  },
+
   {
     field: 'email',
     label: 'Email',
     align: 'centre',
   },
   {
-    label: 'age',
+    field: 'profession',
+    label: 'Profession',
+    align: 'centre',
+  },
+  {
+    field: 'age',
+    label: 'Age',
     align: 'centre',
   },
   {
     field: 'id',
     label: 'Id',
+    align: 'centre',
+  },
+  {
+    field: 'team',
+    label: 'Team',
     align: 'centre',
   },
 ];
@@ -32,6 +39,8 @@ export const traineeListData = [
     src: '/images/cricketers/sachin_tendulkar.jpeg',
     name: 'Sachin Tendulkar',
     age: '45',
+    profession: 'Batsman',
+    team: 'India',
   },
   {
     currentDateTime: getDateFormat(new Date()),
@@ -39,7 +48,9 @@ export const traineeListData = [
     id: '54783bd836e39vcj4365ne30',
     src: '/images/cricketers/MSD.jpg',
     name: 'Mahendra Singh Dhoni',
+    profession: 'WC, Ex Captain',
     age: '40',
+    team: 'India',
   },
   {
     currentDateTime: getDateFormat(new Date()),
@@ -48,5 +59,7 @@ export const traineeListData = [
     src: '/images/cricketers/Gautam-Gambhir.jpg',
     name: 'Gautam Gambhir',
     age: '40',
+    profession: 'Batsman',
+    team: 'India',
   },
 ];

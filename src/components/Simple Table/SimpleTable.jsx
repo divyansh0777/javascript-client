@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-console */
 /* eslint-disable react/prop-types */
@@ -33,17 +34,18 @@ class SimpleTable extends Component {
     const { classes, tableId, tableColumns, tableData } = this.props;
     console.log(this.props);
     const createColumns = tableColumns.map(key => (
-      <TableCell key={key.field || key.label} align={key.align || 'centre'}>{ key.label || key.field }</TableCell>
+      <TableCell key={key.label || key.field} align={key.align || 'centre'}>{ key.label || key.field }</TableCell>
     ));
 
     const createRows = tableData.map(key => (
       <TableRow>
-        <TableCell key={key.id} align="centre" component="th" scope="row">
-          {key.name || key.Name}
-        </TableCell>
-        <TableCell key={key.id} align="centre">{key.email || key.Email}</TableCell>
-        <TableCell key={key.id} align="centre">{key.age || key.Age}</TableCell>
-        <TableCell key={key.id} align="centre">{key.id || key.Id}</TableCell>
+        {
+          tableColumns.map(col => (
+            col.field || col.label
+              ? <TableCell key={key.id} align={col.align}>{key[col.field || col.label]}</TableCell>
+              : ''
+          ))
+        }
       </TableRow>
     ));
 
