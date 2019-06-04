@@ -67,8 +67,10 @@ class TraineeList extends Component {
 	}
 
 	render() {
-	  console.log(this.state);
-	  const { open } = this.state;
+	  const {
+	    open, name, email, password, rePassword,
+	  } = this.state;
+	  console.log('TraineeList { Name -', name, ', Email -', email, ', Password -', password, ', RePassword -', rePassword, ' }');
 	  const { match } = this.props;
 	  const cricketersList = traineeListData.map(data => (
           <List>
@@ -84,7 +86,6 @@ class TraineeList extends Component {
           </List>
 	  ));
 
-	  console.log('---LIS', this.props);
 	  return (
 			<React.Fragment>
 					<Button variant="contained" color="primary" onClick={this.handleOpen}>Add Trainee List</Button>

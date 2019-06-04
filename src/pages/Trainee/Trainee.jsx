@@ -1,3 +1,4 @@
+/* eslint-disable react/prefer-stateless-function */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-indent-props */
 /* eslint-disable no-console */
@@ -13,8 +14,6 @@ import TraineeDetail from './TraineeDetail';
 class Trainee extends Component {
   render() {
     const { match } = this.props;
-	  console.log('Inside Trainee--', this.state);
-
 	  return (
 			<React.Fragment>
         <Switch>

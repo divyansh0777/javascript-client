@@ -32,7 +32,6 @@ class SimpleTable extends Component {
 
   render() {
     const { classes, tableId, tableColumns, tableData } = this.props;
-    console.log(this.props);
     const createColumns = tableColumns.map(key => (
       <TableCell key={key.label || key.field} align={key.align || 'centre'}>{ key.label || key.field }</TableCell>
     ));
