@@ -57,37 +57,37 @@ class NavBar extends Component {
                   justify="flex-end"
                   alignItems="center"
                 >
-                  <Grid item xs={1.5}>
+                  <Grid item xs="auto">
                     <Link className={classes.link} to="/trainee">
                       <Button className={classes.button}>TRAINEE</Button>
                     </Link>
                   </Grid>
-                  <Grid item xs={1.5}>
+                  <Grid item xs="auto">
                     <Link className={classes.link} to="/textfield-demo">
                       <Button className={classes.button}>TEXTFIELD DEMO</Button>
                     </Link>
                   </Grid>
-                  <Grid item xs={1.5}>
+                  <Grid item xs="auto">
                     <Link className={classes.link} to="/input-demo">
                       <Button className={classes.button}>INPUT DEMO</Button>
                     </Link>
                   </Grid>
-                  <Grid item xs={1.5}>
+                  <Grid item xs="auto">
                     <Link className={classes.link} to="/form-validation-demo">
                       <Button className={classes.button}>FORM VALIDATION DEMO</Button>
                     </Link>
                   </Grid>
-                  <Grid item xs={1.5}>
+                  <Grid item xs="auto">
                     <Link className={classes.link} to="/children-demo">
                       <Button className={classes.button}>CHILDREN DEMO</Button>
                     </Link>
                   </Grid>
-                  <Grid item xs={1.5}>
+                  <Grid item xs="auto">
                     <Link className={classes.link} to="/basic-slider-demo">
                       <Button className={classes.button}>BASIC SLIDER DEMO</Button>
                     </Link>
                   </Grid>
-                  <Grid item xs={1.5}>
+                  <Grid item xs="auto">
                     <Link className={classes.link} to="/logout">
                       <Button className={classes.button}>LOGOUT</Button>
                     </Link>
