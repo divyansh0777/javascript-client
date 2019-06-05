@@ -49,9 +49,9 @@ class SimpleTable extends Component {
       <TableRow onClick={onSelect(key.id)} hover key={key.id}>
         {
           tableColumns.map(col => (
-            col.field || col.label
-              ? <TableCell align={col.align}>{key[col.field || col.label]}</TableCell>
-              : ''
+            col.format
+              ? <TableCell align={col.align}>{col.format(key[col.field || col.label])}</TableCell>
+              : <TableCell align={col.align}>{key[col.field || col.label.toLowerCase()]}</TableCell>
           ))
         }
       </TableRow>

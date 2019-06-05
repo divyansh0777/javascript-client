@@ -3,11 +3,16 @@ import { getDateFormat } from './trainee';
 export const traineeTableId = '01';
 
 export const traineeTableColumns = [
-
+  {
+    field: 'name',
+    label: 'Name',
+    align: 'center',
+  },
   {
     field: 'email',
     label: 'Email',
     align: 'center',
+    format: value => value && value.toUpperCase(),
   },
   {
     field: 'profession',
@@ -15,7 +20,6 @@ export const traineeTableColumns = [
     align: 'center',
   },
   {
-    field: 'age',
     label: 'Age',
     align: 'center',
   },
