@@ -13,10 +13,15 @@ import {
 } from '@material-ui/core';
 import { ThemeProvider, withStyles } from '@material-ui/styles';
 import { Route, Switch, Link } from 'react-router-dom';
+import { Edit, Delete } from '@material-ui/icons';
 import { Paragraph, SimpleTable } from '../../components';
 import TraineeDetail from './TraineeDetail';
-import { traineeListData, traineeTableColumns, traineeTableId } from './Data';
-import { AddDialog } from './Component';
+import {
+  traineeListData,
+  traineeTableColumns,
+  traineeTableId,
+} from './Data';
+import { AddDialog, DeleteDialog, EditDialog } from './Component';
 
 const useStyles = theme => ({
   list: {
@@ -33,7 +38,13 @@ class TraineeList extends Component {
 	  open: false,
 	  cricketerId: '',
 	  tableOrder: 'asc',
-	  orderBy: '',
+	  orderBy: 'name',
+	  tableRowsPerPage: 2,
+	  tablePage: 0,
+	  tableRowsPerPageOptions: [],
+	  deleteDialog: false,
+	  editDialog: false,
+	  traineeData: [],
 	}
 
 	handleOpen = () => {
@@ -42,9 +53,9 @@ class TraineeList extends Component {
 	  });
 	}
 
-	handleClose = () => {
+	handleClose = field => () => {
 	  this.setState({
-	    open: false,
+	    [field]: false,
 	  });
 	}
 
@@ -59,6 +70,28 @@ class TraineeList extends Component {
 	    rePassword,
 	  });
 	}
+
+  handleDialogOpen = field => (event, id) => {
+    event.stopPropagation();
+    this.setState({
+      [field]: true,
+    });
+    traineeListData.map(key => (
+      key.id === id
+        ? this.setState({
+          traineeData: key,
+        })
+        : ''
+    ));
+  }
+
+  handleEditSubmit = (data) => {
+    console.log('Edited Data - ', data);
+  }
+
+  handleDeleteSubmit = (data) => {
+    console.log('Deleted Data', data);
+  }
 
   handleToShowTableData = id => () => {
     const { match, history } = this.props;
@@ -78,6 +111,18 @@ class TraineeList extends Component {
     }
   }
 
+  handleOnChangeRowsPerPage = (event) => {
+    this.setState({
+	    tableRowsPerPage: event.target.value,
+	  });
+  }
+
+  handleOnChangePage = (event, newPage) => {
+    this.setState({
+	    tablePage: newPage,
+	  });
+  }
+
 	handleSubmit = (data) => {
 	  const {
 	    name, email, password, rePassword,
@@ -93,9 +138,9 @@ class TraineeList extends Component {
 
 	render() {
 	  const {
-	    open, name, email, password, rePassword, tableOrder, orderBy,
+	    open, name, email, password, rePassword, tableOrder, orderBy, tablePage,
+	    tableRowsPerPage, tableRowsPerPageOptions, deleteDialog, editDialog, traineeData, cricketerId,
 	  } = this.state;
-	  console.log('TraineeListOnSubmit { Name -', name, ', Email -', email, ', Password -', password, ', RePassword -', rePassword, ' }');
 	  const { match, classes } = this.props;
 	  const cricketersList = traineeListData.map(data => (
           <List key={data.id}>
@@ -110,6 +155,16 @@ class TraineeList extends Component {
             <Divider variant="inset" component="li" />
           </List>
 	  ));
+	  const tableActions = [
+	    {
+	      icons: <Edit />,
+	      handler: this.handleDialogOpen('editDialog'),
+	    },
+	    {
+	      icons: <Delete />,
+	      handler: this.handleDialogOpen('deleteDialog'),
+	    },
+	  ];
 
 	  return (
 			<React.Fragment>
@@ -119,7 +174,7 @@ class TraineeList extends Component {
               ? (
                 <AddDialog
                   open={open}
-                  onClose={this.handleClose}
+                  onClose={this.handleClose('open')}
                   onChange={this.handleChange}
                   onSubmit={this.handleSubmit}
                 />
@@ -134,7 +189,36 @@ class TraineeList extends Component {
             order={tableOrder}
             onSort={this.handleTableSorting}
             onSelect={this.handleToShowTableData}
+            count={traineeListData.length}
+            rowsPerPage={tableRowsPerPage}
+            page={tablePage}
+            rowsPerPageOptions={tableRowsPerPageOptions}
+            onChangeRowsPerPage={this.handleOnChangeRowsPerPage}
+            onChangePage={this.handleOnChangePage}
+            actions={tableActions}
           />
+          {
+            deleteDialog
+              ? (
+                <DeleteDialog
+                  open={deleteDialog}
+                  onClose={this.handleClose('deleteDialog')}
+                  onSubmit={this.handleDeleteSubmit}
+                  data={traineeData}
+                />
+              ) : ''
+          }
+          {
+            editDialog
+              ? (
+                <EditDialog
+                  open={editDialog}
+                  onClose={this.handleClose('editDialog')}
+                  onSubmit={this.handleEditSubmit}
+                  data={traineeData}
+                />
+              ) : ''
+          }
           <br />
           <br />
           {
