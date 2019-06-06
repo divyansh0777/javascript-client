@@ -75,7 +75,7 @@ class InputDemo extends Component {
   <React.Fragment>
     <div style={style.mainDiv}>
       <Paragraph text="Name" style={style.paragraphStyle} />
-      <TextField style={style.textBox} pattern="[a-z]{A,Z}" autoFocus placeholder="Enter Name" onChange={this.handleName} />
+      <TextField style={style.textBox} autoFocus placeholder="Enter Name" onChange={this.handleName} />
       <br />
       <Paragraph style={style.paragraphStyle} text="Select game you play" />
       <br />

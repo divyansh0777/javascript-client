@@ -7,6 +7,7 @@ import React, { Component } from 'react';
 import {
   Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button,
 } from '@material-ui/core';
+import { SnackBarContext } from '../../../../components';
 
 class DeleteDialog extends Component {
   handleClose = () => {
@@ -14,10 +15,10 @@ class DeleteDialog extends Component {
 	  onClose();
   };
 
-  handleSubmit = () => {
+  handleSubmit = handleOpenSnack => () => {
     const { onSubmit, onClose, data } = this.props;
     onSubmit(data);
-    onClose();
+    onClose(handleOpenSnack);
   }
 
   render() {
@@ -41,9 +42,14 @@ class DeleteDialog extends Component {
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.handleSubmit} color="primary" autoFocus>
-              Delete
-            </Button>
+            <SnackBarContext.Consumer>
+              { handleOpenSnack => (
+                <Button onClick={this.handleSubmit(handleOpenSnack('Trainee Deleted Successfully'))} color="primary" autofocus>
+                  Delete
+                </Button>
+              )
+              }
+            </SnackBarContext.Consumer>
           </DialogActions>
         </Dialog>
       </React.Fragment>

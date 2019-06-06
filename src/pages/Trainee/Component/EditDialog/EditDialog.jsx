@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import {
   Dialog, DialogTitle, DialogContent, Button, TextField, FormControl, Grid, DialogActions,
 } from '@material-ui/core';
+import { SnackBarContext } from '../../../../components';
 
 class EditDialog extends Component {
   state = {
@@ -19,10 +20,10 @@ class EditDialog extends Component {
 	  onClose();
   };
 
-  handleSubmit = () => {
+  handleSubmit = handleOpenSnack => () => {
     const { onClose, onSubmit } = this.props;
     onSubmit(this.state);
-    onClose();
+    onClose(handleOpenSnack);
   }
 
   handleNameChange = (event) => {
@@ -35,7 +36,7 @@ class EditDialog extends Component {
   handleEmailChange = (event) => {
     this.setState({
       email: event.target.value,
-      valueChanged: true,
+      valueChanged: false,
     });
   }
 
@@ -94,11 +95,20 @@ class EditDialog extends Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
-            Cancel
+              Cancel
             </Button>
-            <Button disabled={valueChanged} onClick={this.handleSubmit} color="primary">
-            Submit
-            </Button>
+            <SnackBarContext.Consumer>
+              { handleOpenSnack => (
+                <Button
+                  disabled={valueChanged}
+                  onClick={this.handleSubmit(handleOpenSnack('Trainee Edited Successfully'))}
+                  color="primary"
+                >
+                  Submit
+                </Button>
+              )
+              }
+            </SnackBarContext.Consumer>
           </DialogActions>
         </Dialog>
       </React.Fragment>

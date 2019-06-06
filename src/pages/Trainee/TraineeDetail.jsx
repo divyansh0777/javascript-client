@@ -43,26 +43,26 @@ class TraineeDetail extends Component {
     const traineeDetails = traineeListData.map(key => (
       key.id === id
         ? (
-          <React.Fragment>
-            <List>
-              <ListItem alignItems="flex-start">
-                <Typography variant="h3" key={key.id}>
+          <React.Fragment key={key.src}>
+            <List key={key.id}>
+              <ListItem key={key.name} alignItems="flex-start">
+                <Typography variant="h3" >
                   {
                     key.name
                   }
                 </Typography>
               </ListItem>
               <Divider variant="fullWidth" component="li" />
-              <ListItem>
-                <Typography key={key.id}>
+              <ListItem key={key.email}>
+                <Typography>
                   {
                     key.email
                   }
                 </Typography>
               </ListItem>
               <Divider variant="fullWidth" component="li" />
-              <ListItem>
-                <Typography className={classes.color} key={key.id}>
+              <ListItem key={key.currentDateTime}>
+                <Typography className={classes.color} >
                   {
                     key.currentDateTime
                   }
@@ -82,15 +82,16 @@ class TraineeDetail extends Component {
     const image = traineeListData.map(key => (
       key.id === id
         ? (
-          <React.Fragment>
+          <React.Fragment key={key.id}>
             <Grid
+              key={key.id}
               container
               direction="row"
               justify="center"
               alignItems="center"
             >
-              <Grid item>
-                <Avatar alt="Remy Sharp" key={key.id} src={key.src} className={classes.bigAvatar} />
+              <Grid key={key.name} item>
+                <Avatar alt="Remy Sharp" key={key.src} src={key.src} className={classes.bigAvatar} />
               </Grid>
             </Grid>
           </React.Fragment>
@@ -120,18 +121,15 @@ class TraineeDetail extends Component {
               </Grid>
               <Grid item xs={9}>
                 <Grid
-                  xs={12}
                   container
                   direction="column"
                   justify="space-evenly"
                   alignItems="flex-start"
                 >
                   <Grid item xs={12}>
-                    <Typography fullWidth>
                       {
                         this.showDetail(match.params.id)
                       }
-                    </Typography>
                   </Grid>
                 </Grid>
               </Grid>

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/prefer-stateless-*/
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/prop-types */
@@ -77,18 +78,18 @@ class SimpleTable extends Component {
     ));
 
     const createRows = tableData.map(key => (
-      <TableRow onClick={onSelect(key.id)} hover key={key.id}>
+      <TableRow key={key.id} onClick={onSelect(key.id)} hover>
         {
           tableColumns.map(col => (
             col.format
-              ? <TableCell align={col.align}>{col.format(key[col.field || col.label])}</TableCell>
-              : <TableCell align={col.align}>{key[col.field || col.label.toLowerCase()]}</TableCell>
+              ? <TableCell key={col.label} align={col.align}>{col.format(key[col.field || col.label])}</TableCell>
+              : <TableCell key={col.label} align={col.align}>{key[col.field || col.label.toLowerCase()]}</TableCell>
           ))
         }
-        <TableCell>
+        <TableCell key={key.src}>
           {
             actions.map(button => (
-              <IconButton onClick={event => button.handler(event, key.id)}>
+              <IconButton key={button.icons} onClick={event => button.handler(event, key.id)}>
                 {
                   button.icons
                 }

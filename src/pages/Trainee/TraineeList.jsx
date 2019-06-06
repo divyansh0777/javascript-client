@@ -53,10 +53,11 @@ class TraineeList extends Component {
 	  });
 	}
 
-	handleClose = field => () => {
+	handleClose = field => (handleOpenSnack) => {
 	  this.setState({
 	    [field]: false,
 	  });
+	  handleOpenSnack();
 	}
 
 	handleChange = (data) => {
@@ -123,7 +124,7 @@ class TraineeList extends Component {
 	  });
   }
 
-	handleSubmit = (data) => {
+	handleSubmit = (data, handleOpenSnack) => {
 	  const {
 	    name, email, password, rePassword,
 	  } = data;
@@ -134,6 +135,7 @@ class TraineeList extends Component {
 	    rePassword,
 	    open: false,
 	  });
+	  handleOpenSnack();
 	}
 
 	render() {
