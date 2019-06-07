@@ -8,6 +8,7 @@ import {
   Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button,
 } from '@material-ui/core';
 import { SnackBarContext } from '../../../../components';
+import { getDateFormat } from '../../Data';
 
 class DeleteDialog extends Component {
   handleClose = () => {
@@ -18,7 +19,11 @@ class DeleteDialog extends Component {
   handleSubmit = handleOpenSnack => () => {
     const { onSubmit, onClose, data } = this.props;
     onSubmit(data);
-    onClose(handleOpenSnack);
+    if (data.createdAt < getDateFormat('2019-02-14')) {
+      onClose(handleOpenSnack('Sorry trainee cannot deleted', '#FF0000'));
+    } else {
+      onClose(handleOpenSnack('Trainee Deleted Successfully', '#4BB543'));
+    }
   }
 
   render() {
@@ -43,7 +48,7 @@ class DeleteDialog extends Component {
             </Button>
             <SnackBarContext.Consumer>
               { handleOpenSnack => (
-                <Button onClick={this.handleSubmit(handleOpenSnack('Trainee Deleted Successfully'))} color="primary" autofocus>
+                <Button onClick={this.handleSubmit(handleOpenSnack)} color="primary" autofocus>
                   Delete
                 </Button>
               )

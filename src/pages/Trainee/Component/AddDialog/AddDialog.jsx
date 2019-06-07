@@ -255,7 +255,7 @@ class AddDialog extends Component {
             { handleOpenSnack => (
                   <Button
                     disabled={isError || !nameTouched || !emailTouched || !passwordTouched || !rePasswordTouched}
-                    onClick={this.handleSubmit(handleOpenSnack('Trainee Added Successfully'))}
+                    onClick={this.handleSubmit(handleOpenSnack('Trainee Added Successfully', '#4BB543'))}
                     color="primary"
                   >
                     Submit

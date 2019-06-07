@@ -101,7 +101,7 @@ class EditDialog extends Component {
               { handleOpenSnack => (
                 <Button
                   disabled={valueChanged}
-                  onClick={this.handleSubmit(handleOpenSnack('Trainee Edited Successfully'))}
+                  onClick={this.handleSubmit(handleOpenSnack('Trainee Edited Successfully', '#4BB543'))}
                   color="primary"
                 >
                   Submit

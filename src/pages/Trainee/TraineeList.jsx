@@ -80,13 +80,6 @@ class TraineeList extends Component {
 
   handleDialogOpen = field => (event, id) => {
     event.stopPropagation();
-    // traineeListData.map(key => (
-    //   key.id === id && key.currentDateTime>
-    //     ? this.setState({
-    //       traineeData: key,
-    //     })
-    //     : ''
-    // ));
     this.setState({
       [field]: true,
     });

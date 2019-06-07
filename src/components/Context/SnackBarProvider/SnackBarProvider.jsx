@@ -1,29 +1,22 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { Snackbar, SnackbarContent, IconButton } from '@material-ui/core';
-import { withStyles } from '@material-ui/styles';
 import { Close } from '@material-ui/icons';
 
 export const SnackBarContext = React.createContext(null);
 
-const useStyles = () => ({
-  success: {
-    backgroundColor: '#4BB543',
-  },
-  tick: {
-    color: '#FFFFFF',
-  },
-});
 class SnackBarProvider extends Component {
 state = {
   open: false,
   showMessage: '',
+  setColor: '',
 };
 
-handleOpenSnack = message => () => {
+handleOpenSnack = (message, color) => () => {
   this.setState({
     open: true,
     showMessage: message,
+    setColor: color,
   });
 }
 
@@ -34,8 +27,8 @@ handleClose = () => {
 }
 
 render() {
-  const { open, showMessage } = this.state;
-  const { children, classes } = this.props;
+  const { open, showMessage, setColor } = this.state;
+  const { children } = this.props;
   return (
     <React.Fragment>
       <SnackBarContext.Provider value={this.handleOpenSnack}>
@@ -51,7 +44,7 @@ render() {
           open={open}
         >
           <SnackbarContent
-            className={classes.success}
+            style={{ backgroundColor: setColor }}
             aria-describedby="client-snackbar"
             onClose={this.handleClose}
             message={showMessage}
@@ -68,4 +61,4 @@ render() {
 }
 }
 
-export default withStyles(useStyles)(SnackBarProvider);
+export default SnackBarProvider;

@@ -46,7 +46,7 @@ class TraineeDetail extends Component {
           <React.Fragment key={key.src}>
             <List key={key.id}>
               <ListItem key={key.name} alignItems="flex-start">
-                <Typography variant="h3" >
+                <Typography variant="h3">
                   {
                     key.name
                   }
@@ -61,10 +61,10 @@ class TraineeDetail extends Component {
                 </Typography>
               </ListItem>
               <Divider variant="fullWidth" component="li" />
-              <ListItem key={key.currentDateTime}>
-                <Typography className={classes.color} >
+              <ListItem key={key.createdAt}>
+                <Typography className={classes.color}>
                   {
-                    key.currentDateTime
+                    key.createdAt
                   }
                 </Typography>
               </ListItem>
@@ -127,9 +127,9 @@ class TraineeDetail extends Component {
                   alignItems="flex-start"
                 >
                   <Grid item xs={12}>
-                      {
+                    {
                         this.showDetail(match.params.id)
-                      }
+                    }
                   </Grid>
                 </Grid>
               </Grid>
