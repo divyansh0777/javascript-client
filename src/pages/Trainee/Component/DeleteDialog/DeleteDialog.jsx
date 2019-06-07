@@ -28,7 +28,6 @@ class DeleteDialog extends Component {
         <Dialog
           open={open}
           disableBackdropClick
-          onClose={this.handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >

@@ -1,3 +1,4 @@
+/* eslint-disable react/prefer-stateless-function */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-console */
 /* eslint-disable max-len */
@@ -29,16 +30,7 @@ import {
   Login,
   NoMatch,
 } from './pages';
-import { SnackBarContext } from './components';
-
-const useStyles = theme => ({
-  success: {
-    backgroundColor: '#4BB543',
-  },
-  tick: {
-    color: '#FFFFFF',
-  },
-});
+import { SnackBarProvider } from './components';
 
 class App extends Component {
 /* -------------Day 4-----------------------------------------*/
@@ -175,59 +167,17 @@ class App extends Component {
 
   // /* -------------Day 13, 14, 15-----------------------------------------*/
 
-  state = {
-    open: false,
-    showMessage: '',
-  };
-
-  handleOpenSnack = message => () => {
-    this.setState({
-      open: true,
-      showMessage: message,
-    });
-  }
-
-  handleClose = () => {
-    this.setState({
-      open: false,
-    });
-  }
-
   render() {
-    const { open, showMessage } = this.state;
-    const { classes } = this.props;
     return (
       <React.Fragment>
-        <SnackBarContext.Provider value={this.handleOpenSnack}>
+        <SnackBarProvider>
           <Router>
             <StartRouting />
           </Router>
-          <Snackbar
-            key={showMessage}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center',
-            }}
-            autoHideDuration={1500}
-            onClose={this.handleClose}
-            open={open}
-          >
-            <SnackbarContent
-              className={classes.success}
-              aria-describedby="client-snackbar"
-              onClose={this.handleClose}
-              message={showMessage}
-              action={[
-                <IconButton key="close" aria-label="Close" color="inherit" onClick={this.handleClose}>
-                  <Close />
-                </IconButton>,
-              ]}
-            />
-          </Snackbar>
-        </SnackBarContext.Provider>
+        </SnackBarProvider>
       </React.Fragment>
     );
   }
 }
 
-export default withStyles(useStyles)(App);
+export default App;

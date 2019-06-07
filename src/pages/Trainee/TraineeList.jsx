@@ -54,10 +54,16 @@ class TraineeList extends Component {
 	}
 
 	handleClose = field => (handleOpenSnack) => {
-	  this.setState({
-	    [field]: false,
-	  });
-	  handleOpenSnack();
+	  if (handleOpenSnack) {
+	    this.setState({
+	     [field]: false,
+	    });
+	    handleOpenSnack();
+	  } else {
+	    this.setState({
+	      [field]: false,
+	    });
+	  }
 	}
 
 	handleChange = (data) => {
@@ -74,6 +80,13 @@ class TraineeList extends Component {
 
   handleDialogOpen = field => (event, id) => {
     event.stopPropagation();
+    // traineeListData.map(key => (
+    //   key.id === id && key.currentDateTime>
+    //     ? this.setState({
+    //       traineeData: key,
+    //     })
+    //     : ''
+    // ));
     this.setState({
       [field]: true,
     });
@@ -96,7 +109,6 @@ class TraineeList extends Component {
 
   handleToShowTableData = id => () => {
     const { match, history } = this.props;
-    console.log(id, match);
     history.push(`${match.path}/trainee-detail/${id}`);
   }
 
