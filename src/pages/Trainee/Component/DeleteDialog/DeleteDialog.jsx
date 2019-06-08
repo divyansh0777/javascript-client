@@ -20,7 +20,7 @@ class DeleteDialog extends Component {
     const { onSubmit, onClose, data } = this.props;
     onSubmit(data);
     if (data.createdAt < getDateFormat('2019-02-14')) {
-      onClose(handleOpenSnack('Sorry trainee cannot deleted', '#FF0000'));
+      onClose(handleOpenSnack('Sorry trainee cannot be deleted', '#FF0000'));
     } else {
       onClose(handleOpenSnack('Trainee Deleted Successfully', '#4BB543'));
     }

@@ -4,7 +4,7 @@ export default yup.object().shape({
   email: yup
     .string()
     .email()
-    .min(1)
+    .matches(/^[a-zA-Z_@.]*$/, 'Email Address must be of Email type')
     .required('Email Address must be of Email type'),
   password: yup
     .string('Password is not in valid format')

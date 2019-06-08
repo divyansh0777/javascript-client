@@ -13,7 +13,7 @@
 import {
   Dialog, TextField, DialogTitle, DialogActions, DialogContent, Button,
   Grid, InputAdornment, IconButton, Input, InputLabel, FormControl, Paper,
-  createMuiTheme, Container, Avatar, Typography,
+  createMuiTheme, Container, Avatar, Typography, CircularProgress,
 } from '@material-ui/core';
 import {
   Visibility, VisibilityOff,
@@ -21,7 +21,11 @@ import {
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import React, { Component } from 'react';
+import Axios from 'axios';
 import yupValidationSchema from './yupValidationSchema';
+import { SnackBarContext } from '../../components';
+import { Trainee } from '../Trainee';
+import { callLoginApi } from '../../libs';
 
 const useStyles = theme => ({
   paper: {
@@ -64,57 +68,63 @@ class Login extends Component {
 	  showPassword: false,
 	  isError: false,
 	  getError: {},
+	  submitButtonValue: 'Submit',
+	  loader: false,
 	}
 
 	/*---------------------------------*/
 
-	handleEmail = (event) => {
-	  this.setState({
-	    email: event.target.value,
-	  }, this.validation);
-	};
-
-	handlePassword = (event) => {
-	  this.setState({
-	    password: event.target.value,
-	  }, this.validation);
-	};
-
-	/*---------------------------------*/
-
-	handleClickShowPassword = () => {
-	  const { showPassword } = this.state;
-	  if (showPassword) {
-	    this.setState({
-	      showPassword: false,
-	    });
-	  } else {
-	    this.setState({
-	      showPassword: true,
-	    });
-	  }
-	};
-
-	/*---------------------------------*/
-
-	handleSubmit = (event) => {
-	  const { onSubmit } = this.props;
+	handleSubmit = handleSnackBar => (event) => {
 	  const { email, password } = this.state;
+	  const { history } = this.props;
 	  this.setState({
-	    email: event.target.value,
-	    password: event.target.value,
+	    loader: true,
 	  });
-	  onSubmit(email, password);
+	  const data = { email, password, history };
+	  callLoginApi(data, this.setLoaderDefault(handleSnackBar));
 	};
 
-	handleTouch = field => () => {
+    /*---------------------------------*/
+    setLoaderDefault = handleSnackBar => () => {
+      this.setState({
+        loader: false,
+      });
+      handleSnackBar();
+    }
+
+  handleEmail = (event) => {
+    this.setState({
+      email: event.target.value,
+    }, this.validation);
+  };
+
+    handlePassword = (event) => {
+      this.setState({
+        password: event.target.value,
+      }, this.validation);
+    };
+
+    handleTouch = field => () => {
 	  this.setState({
-	    [field]: true,
+        [field]: true,
 	  });
-	}
+    }
+
+  handleClickShowPassword = () => {
+    const { showPassword } = this.state;
+    if (showPassword) {
+      this.setState({
+        showPassword: false,
+      });
+    } else {
+      this.setState({
+        showPassword: true,
+      });
+    }
+  };
 
   getFieldError = (field) => {
-	  const { getError } = this.state;
+    const { getError } = this.state;
 	  return getError[field];
   }
 
@@ -138,7 +148,6 @@ class Login extends Component {
 	      error.inner.forEach((err) => {
 	        parsedError[err.path] = err.message;
 	      });
-	      console.log('getError', parsedError);
 	      this.setState({
 	        isError: true,
 	        getError: parsedError,
@@ -151,77 +160,85 @@ class Login extends Component {
 
 	render() {
 	  const { classes } = this.props;
-
 	  const {
-	    showPassword, isError, emailTouched, passwordTouched,
+	    showPassword, isError, emailTouched, passwordTouched, email, password, submitButtonValue, loader,
 	  } = this.state;
-
 	  return (
-      <div>
-       <Container maxWidth="sm">
-       <ThemeProvider theme={theme}>
-         <form className={classes.form}>
-            <Paper className={classes.paper} elevation={3}>
-              <Avatar
-                alt="Remy Sharp"
-                src="images/login_lock.png"
-                className={classes.bigAvatar}
-              />
-              <Typography
-                variant="h4"
-              >Login
-              </Typography>
-              <FormControl fullWidth>
-                <TextField
-                  className={classes.input}
-                  error={emailTouched && !!this.getFieldError('email')}
-                  helperText={emailTouched && this.getFieldError('email')}
-                  autoComplete="on"
-                  autoFocus
-                  margin="dense"
-                  id="email"
-                  label="Enter Email ID"
-                  type="email"
-                  onFocus={this.handleTouch('emailTouched')}
-                  onChange={this.handleEmail}
-                />
-              </FormControl>
-              <FormControl fullWidth>
-                <TextField
-                  className={classes.input}
-                  error={passwordTouched && !!this.getFieldError('password')}
-                  helperText={passwordTouched && this.getFieldError('password')}
-                  autoComplete="on"
-                  label="Password"
-                  type={showPassword ? 'text' : 'password'}
-                  onFocus={this.handleTouch('passwordTouched')}
-                  onChange={this.handlePassword}
-                  InputProps={{
-                    endAdornment:
-                      <InputAdornment position="end">
-                      <IconButton aria-label="Toggle password visibility" onClick={this.handleClickShowPassword}>
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                      </InputAdornment>,
-                  }}
-                />
-              </FormControl>
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.input}
-                disabled={isError}
-                onClick={this.handleSubmit}
-              >
-                  Submit
-              </Button>
-            </Paper>
-         </form>
-       </ThemeProvider>
-       </Container>
-      </div>
-	  );
+        <div>
+          <SnackBarContext.Consumer>
+            {
+              handleSnackBar => (
+                <Container maxWidth="sm">
+                <ThemeProvider theme={theme}>
+                  <form className={classes.form}>
+                      <Paper className={classes.paper} elevation={3}>
+                        <Avatar
+                          alt="Remy Sharp"
+                          src="/images/login_lock.png"
+                          className={classes.bigAvatar}
+                        />
+                        <Typography
+                          variant="h4"
+                        >Login
+                        </Typography>
+                        <FormControl fullWidth>
+                          <TextField
+                            className={classes.input}
+                            error={emailTouched && !!this.getFieldError('email')}
+                            helperText={emailTouched && this.getFieldError('email')}
+                            autoComplete="on"
+                            autoFocus
+                            margin="dense"
+                            id="email"
+                            label="Enter Email ID"
+                            type="email"
+                            onFocus={this.handleTouch('emailTouched')}
+                            onChange={this.handleEmail}
+                          />
+                        </FormControl>
+                        <FormControl fullWidth>
+                          <TextField
+                            className={classes.input}
+                            error={passwordTouched && !!this.getFieldError('password')}
+                            helperText={passwordTouched && this.getFieldError('password')}
+                            autoComplete="on"
+                            label="Password"
+                            type={showPassword ? 'text' : 'password'}
+                            onFocus={this.handleTouch('passwordTouched')}
+                            onChange={this.handlePassword}
+                            InputProps={{
+                              endAdornment:
+                                <InputAdornment position="end">
+                                <IconButton aria-label="Toggle password visibility" onClick={this.handleClickShowPassword}>
+                                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                                </IconButton>
+                                </InputAdornment>,
+                            }}
+                          />
+                        </FormControl>
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          color="primary"
+                          className={classes.input}
+                          disabled={(!password.length && !email.length) || isError || !emailTouched || !passwordTouched || loader}
+                          onClick={this.handleSubmit(handleSnackBar('Login Failed', '#FF0000'))}
+                        >
+                          {
+                            loader
+                              ? <CircularProgress />
+                              : submitButtonValue
+                          }
+                        </Button>
+                      </Paper>
+                  </form>
+                </ThemeProvider>
+                </Container>
+              )
+            }
+          </SnackBarContext.Consumer>
+        </div>
+	    );
 	}
 }
 
