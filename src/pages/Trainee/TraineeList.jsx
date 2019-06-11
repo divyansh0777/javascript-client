@@ -139,7 +139,6 @@ class TraineeList extends Component {
       tablePage: newPage,
       skip: skip + limit,
       tableLoader: true,
-      tableRowsPerPage: tableRowsPerPage + limit,
     });
     this.handleTableData();
   }
