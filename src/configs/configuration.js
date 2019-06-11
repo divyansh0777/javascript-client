@@ -1,3 +1,3 @@
 export const configuration = Object.freeze({
-  loginApi: process.env.REACT_APP_LOGINAPI,
+  url: process.env.REACT_APP_URL,
 });

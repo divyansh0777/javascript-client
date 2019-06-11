@@ -18,7 +18,7 @@ class Trainee extends Component {
 			<React.Fragment>
         <Switch>
             <Route exact path={`${match.path}`} component={TraineeList} />
-            <Route exact path={`${match.path}/trainee-detail/:id`} component={TraineeDetail} />
+            <Route exact path={`${match.path}/trainee-detail/:_id`} component={TraineeDetail} />
         </Switch>
 			</React.Fragment>
 	  );

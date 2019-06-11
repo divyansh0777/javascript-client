@@ -9,3 +9,4 @@ export { NavBar } from '../Layouts';
 export { Image } from './Image';
 export { SimpleTable } from './Simple Table';
 export { SnackBarContext, SnackBarProvider } from './Context';
+export { snackBarHOC } from './HOC';

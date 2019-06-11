@@ -1,9 +1,10 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable max-len */
 /* eslint-disable react/prefer-stateless-*/
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/prop-types */
 /* eslint-disable object-curly-newline */
-/* eslint-disable no-console */
 import React, { Component } from 'react';
 import {
   Paper, Table, TableHead, TableRow, TableCell, TableBody, TableSortLabel, TableFooter,
@@ -12,6 +13,8 @@ import {
 } from '@material-ui/core';
 import { withStyles, useTheme } from '@material-ui/core/styles';
 import { KeyboardArrowRight, KeyboardArrowLeft } from '@material-ui/icons';
+import { getDateFormat } from '../../pages/Trainee/Data';
+import { withLoaderAndMessageHOC } from '../HOC';
 
 const useStyles = theme => ({
   root: {
@@ -35,7 +38,7 @@ const useStyles = theme => ({
 
 class SimpleTable extends Component {
   TablePaginationActions = () => {
-    const { onChangePage, page, count, rowsPerPage } = this.props;
+    const { onChangePage, page } = this.props;
     const theme = useTheme();
 
     const handleBackButtonClick = (event) => {
@@ -53,7 +56,6 @@ class SimpleTable extends Component {
         </IconButton>
         <IconButton
           onClick={handleNextButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
           aria-label="Next Page"
         >
           {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
@@ -78,18 +80,24 @@ class SimpleTable extends Component {
     ));
 
     const createRows = tableData.map(key => (
-      <TableRow key={key.id} onClick={onSelect(key.id)} hover>
+      <TableRow key={key._id} onClick={onSelect(key._id)} hover>
         {
           tableColumns.map(col => (
             col.format
               ? <TableCell key={col.label} align={col.align}>{col.format(key[col.field || col.label])}</TableCell>
-              : <TableCell key={col.label} align={col.align}>{key[col.field || col.label.toLowerCase()]}</TableCell>
+              : (
+                col.field === 'createdAt' || col.label.toLowerCase() === 'createdAt'
+                  ? (
+                    <TableCell key={col.label} align={col.align}>{getDateFormat(key[col.field || col.label.toLowerCase()])}</TableCell>
+                  )
+                  : <TableCell key={col.label} align={col.align}>{key[col.field || col.label]}</TableCell>
+              )
           ))
         }
         <TableCell key={key.src}>
           {
             actions.map(button => (
-              <IconButton key={button.icons} onClick={event => button.handler(event, key.id)}>
+              <IconButton key={button.icons} onClick={event => button.handler(event, key._id)}>
                 {
                   button.icons
                 }
@@ -103,7 +111,7 @@ class SimpleTable extends Component {
     return (
       <React.Fragment>
         <Paper className={classes.root}>
-          <Table id={tableId} className={classes.table}>
+          <Table _id={tableId} className={classes.table}>
             <TableHead>
               <TableRow>
                 {
@@ -144,4 +152,4 @@ SimpleTable.defaultProps = {
   page: 0,
 };
 
-export default withStyles(useStyles)(SimpleTable);
+export default withLoaderAndMessageHOC(withStyles(useStyles)(SimpleTable));

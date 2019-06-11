@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import {
   Dialog, DialogTitle, DialogContent, Button, TextField, FormControl, Grid, DialogActions,
 } from '@material-ui/core';
-import { SnackBarContext } from '../../../../components';
+import { snackBarHOC } from '../../../../components';
 
 class EditDialog extends Component {
   state = {
@@ -20,10 +20,11 @@ class EditDialog extends Component {
 	  onClose();
   };
 
-  handleSubmit = handleOpenSnack => () => {
-    const { onClose, onSubmit } = this.props;
+  handleSubmit = () => {
+    const { onClose, onSubmit, handleOpenSnack } = this.props;
     onSubmit(this.state);
-    onClose(handleOpenSnack);
+    handleOpenSnack('Trainee Edited Successfully', '#4BB543')();
+    onClose();
   }
 
   handleNameChange = (event) => {
@@ -97,18 +98,13 @@ class EditDialog extends Component {
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <SnackBarContext.Consumer>
-              { handleOpenSnack => (
-                <Button
-                  disabled={valueChanged}
-                  onClick={this.handleSubmit(handleOpenSnack('Trainee Edited Successfully', '#4BB543'))}
-                  color="primary"
-                >
-                  Submit
-                </Button>
-              )
-              }
-            </SnackBarContext.Consumer>
+            <Button
+              disabled={valueChanged}
+              onClick={this.handleSubmit}
+              color="primary"
+            >
+                Submit
+            </Button>
           </DialogActions>
         </Dialog>
       </React.Fragment>
@@ -116,4 +112,4 @@ class EditDialog extends Component {
   }
 }
 
-export default EditDialog;
+export default snackBarHOC(EditDialog);

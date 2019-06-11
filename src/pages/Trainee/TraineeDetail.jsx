@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 /* eslint-disable react/prop-types */
@@ -7,7 +9,7 @@ import {
   Paper, Grid, createMuiTheme, List, ListItem, Typography, Divider, Avatar,
 } from '@material-ui/core';
 import { withStyles, ThemeProvider } from '@material-ui/styles';
-import { traineeListData } from './Data';
+import { getDateFormat } from './Data';
 
 const useStyle = () => ({
   paper: {
@@ -38,13 +40,13 @@ const theme = createMuiTheme({
 });
 
 class TraineeDetail extends Component {
-  showDetail = (id) => {
-    const { classes } = this.props;
-    const traineeDetails = traineeListData.map(key => (
-      key.id === id
+  showDetail = (_id) => {
+    const { classes, location } = this.props;
+    const traineeDetails = location.state.data.map(key => (
+      key._id === _id
         ? (
           <React.Fragment key={key.src}>
-            <List key={key.id}>
+            <List key={key._id}>
               <ListItem key={key.name} alignItems="flex-start">
                 <Typography variant="h3">
                   {
@@ -64,7 +66,7 @@ class TraineeDetail extends Component {
               <ListItem key={key.createdAt}>
                 <Typography className={classes.color}>
                   {
-                    key.createdAt
+                    getDateFormat(key.createdAt)
                   }
                 </Typography>
               </ListItem>
@@ -77,33 +79,36 @@ class TraineeDetail extends Component {
     return traineeDetails;
   };
 
-  getImage = (id) => {
-    const { classes } = this.props;
-    const image = traineeListData.map(key => (
-      key.id === id
-        ? (
-          <React.Fragment key={key.id}>
-            <Grid
-              key={key.id}
-              container
-              direction="row"
-              justify="center"
-              alignItems="center"
-            >
-              <Grid key={key.name} item>
-                <Avatar alt="Remy Sharp" key={key.src} src={key.src} className={classes.bigAvatar} />
-              </Grid>
-            </Grid>
-          </React.Fragment>
-        )
-        : ''
-    ));
-    return image;
+  getImage = (_id) => {
+    const { classes, location } = this.props;
+    return (
+      <Avatar src="/images/defaultProfileImage.png" className={classes.bigAvatar} />
+    );
+    // const { classes } = this.props;
+    // const image = location.state.data.map(key => (
+    //   key._id === _id
+    //     ? (
+    //       <React.Fragment key={key._id}>
+    //         <Grid
+    //           key={key._id}
+    //           container
+    //           direction="row"
+    //           justify="center"
+    //           alignItems="center"
+    //         >
+    //           <Grid key={key.name} item>
+    //             <Avatar alt="Remy Sharp" key={key.src} src={key.src} className={classes.bigAvatar} />
+    //           </Grid>
+    //         </Grid>
+    //       </React.Fragment>
+    //     )
+    //     : ''
+    // ));
+    // return image;
   };
 
   render() {
-    console.log(this.props);
-    const { classes, match } = this.props;
+    const { match } = this.props;
     return (
       <React.Fragment>
         <ThemeProvider theme={theme}>
@@ -116,7 +121,7 @@ class TraineeDetail extends Component {
             >
               <Grid item xs={3}>
                 {
-                  this.getImage(match.params.id)
+                  this.getImage(match.params._id)
                 }
               </Grid>
               <Grid item xs={9}>
@@ -128,7 +133,7 @@ class TraineeDetail extends Component {
                 >
                   <Grid item xs={12}>
                     {
-                        this.showDetail(match.params.id)
+                        this.showDetail(match.params._id)
                     }
                   </Grid>
                 </Grid>
