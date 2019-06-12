@@ -25,7 +25,7 @@ class StartRouting extends Component {
           <PrivateRoute exact path="/input-demo" component={InputDemo} />
           <PrivateRoute exact path="/textfield-demo" component={TextFieldDemo} />
           <PrivateRoute exact path="/children-demo" component={ChildrenDemo} />
-          <PrivateRoute path="/trainee/" component={Trainee} />
+          <PrivateRoute path="/trainee" component={Trainee} />
           <PrivateRoute exact path="/form-validation-demo" component={FormValidationDemo} />
           <PrivateRoute exact path="/basic-slider-demo" component={BasicSliderDemo} />
           <PrivateRoute component={NoMatch} />

@@ -11,12 +11,18 @@ import React, { Component } from 'react';
 import {
   Button, createMuiTheme, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText, Divider,
 } from '@material-ui/core';
-import { ThemeProvider } from '@material-ui/styles';
+import { ThemeProvider, withStyles } from '@material-ui/styles';
 import { Route, Switch, Link } from 'react-router-dom';
 import { Paragraph, SimpleTable } from '../../components';
 import TraineeDetail from './TraineeDetail';
 import { traineeListData, traineeTableColumns, traineeTableId } from './Data';
 import { AddDialog } from './Component';
+
+const useStyles = theme => ({
+  list: {
+    textDecoration: 'none',
+  },
+});
 
 class TraineeList extends Component {
 	state = {
@@ -26,6 +32,8 @@ class TraineeList extends Component {
 	  rePassword: '',
 	  open: false,
 	  cricketerId: '',
+	  tableOrder: 'asc',
+	  orderBy: '',
 	}
 
 	handleOpen = () => {
@@ -52,6 +60,23 @@ class TraineeList extends Component {
 	  });
 	}
 
+  handleToShowTableData = id => () => {
+    const { match, history } = this.props;
+    console.log(id, match);
+    history.push(`${match.path}/trainee-detail/${id}`);
+  }
+
+  handleTableSorting = (order, orderBy) => () => {
+    if (order === 'asc') {
+      this.setState({
+        tableOrder: 'desc',
+      });
+    } else {
+      this.setState({
+        tableOrder: 'asc',
+      });
+    }
+  }
 
 	handleSubmit = (data) => {
 	  const {
@@ -68,17 +93,17 @@ class TraineeList extends Component {
 
 	render() {
 	  const {
-	    open, name, email, password, rePassword,
+	    open, name, email, password, rePassword, tableOrder, orderBy,
 	  } = this.state;
-	  console.log('TraineeList { Name -', name, ', Email -', email, ', Password -', password, ', RePassword -', rePassword, ' }');
-	  const { match } = this.props;
+	  console.log('TraineeListOnSubmit { Name -', name, ', Email -', email, ', Password -', password, ', RePassword -', rePassword, ' }');
+	  const { match, classes } = this.props;
 	  const cricketersList = traineeListData.map(data => (
-          <List>
+          <List key={data.id}>
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
                 <Avatar key={data.id} src={data.src} />
               </ListItemAvatar>
-              <Link key={data.id} to={`${match.url}/traineeDetail/${data.id}`}>
+              <Link className={classes.list} to={`${match.url}/trainee-detail/${data.id}`}>
               {data.name}
               </Link>
             </ListItem>
@@ -101,7 +126,17 @@ class TraineeList extends Component {
               )
               : <Paragraph text="Click Button to Show Dialog" />
           }
-          <SimpleTable tableId={traineeTableId} tableData={traineeListData} tableColumns={traineeTableColumns} />
+          <SimpleTable
+            tableId={traineeTableId}
+            tableData={traineeListData}
+            tableColumns={traineeTableColumns}
+            orderBy={orderBy}
+            order={tableOrder}
+            onSort={this.handleTableSorting}
+            onSelect={this.handleToShowTableData}
+          />
+          <br />
+          <br />
           {
             cricketersList
           }
@@ -110,4 +145,4 @@ class TraineeList extends Component {
 	}
 }
 
-export default TraineeList;
+export default withStyles(useStyles)(TraineeList);
