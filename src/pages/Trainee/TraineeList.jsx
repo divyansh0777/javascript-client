@@ -1,29 +1,28 @@
-/* eslint-disable max-len */
-/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-/* eslint-disable react/jsx-indent-props */
 /* eslint-disable no-console */
-/* eslint-disable react/no-unused-state */
-/* eslint-disable react/jsx-indent */
-/* eslint-disable no-tabs */
+/* eslint-disable react/prop-types */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-mixed-spaces-and-tabs */
+/* eslint-disable no-tabs */
 import React, { Component } from 'react';
-import {
-  Button, createMuiTheme, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText, Divider,
-} from '@material-ui/core';
-import { ThemeProvider, withStyles } from '@material-ui/styles';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Button } from '@material-ui/core';
+import { withStyles } from '@material-ui/styles';
 import { Edit, Delete } from '@material-ui/icons';
-import { Paragraph, SimpleTable } from '../../components';
-import TraineeDetail from './TraineeDetail';
+import Axios from 'axios';
+import { Paragraph, SimpleTable, snackBarHOC } from '../../components';
 import {
-  traineeListData,
   traineeTableColumns,
   traineeTableId,
 } from './Data';
 import { AddDialog, DeleteDialog, EditDialog } from './Component';
+import { configuration } from '../../configs/configuration';
+import * as nextApi from '../../libs/Utils/APIConstants';
+import { axiosConfigure } from '../../configs/Axios';
+import { getTraineeData, postTraineeData } from '../../libs/Utils/API';
 
-const useStyles = theme => ({
+axiosConfigure();
+
+const useStyles = () => ({
   list: {
     textDecoration: 'none',
   },
@@ -31,20 +30,24 @@ const useStyles = theme => ({
 
 class TraineeList extends Component {
 	state = {
-	  name: '',
-	  email: '',
-	  password: '',
-	  rePassword: '',
 	  open: false,
-	  cricketerId: '',
+	  loader: false,
+	  tableLoader: true,
 	  tableOrder: 'asc',
 	  orderBy: 'name',
-	  tableRowsPerPage: 2,
+	  tableRowsPerPage: 5,
 	  tablePage: 0,
 	  tableRowsPerPageOptions: [],
 	  deleteDialog: false,
 	  editDialog: false,
 	  traineeData: [],
+	  traineeTableData: [],
+	  limit: 5,
+	  skip: 0,
+	}
+
+	componentDidMount() {
+	  this.handleTableData();
 	}
 
 	handleOpen = () => {
@@ -53,38 +56,20 @@ class TraineeList extends Component {
 	  });
 	}
 
-	handleClose = field => (handleOpenSnack) => {
-	  if (handleOpenSnack) {
-	    this.setState({
-	     [field]: false,
-	    });
-	    handleOpenSnack();
-	  } else {
-	    this.setState({
-	      [field]: false,
-	    });
-	  }
-	}
-
-	handleChange = (data) => {
-	  const {
-	    name, email, password, rePassword,
-	  } = data;
+	handleClose = field => () => {
 	  this.setState({
-	    name,
-	    email,
-	    password,
-	    rePassword,
+	    [field]: false,
 	  });
 	}
 
-  handleDialogOpen = field => (event, id) => {
+  handleTableActionDialogs = field => (event, _id) => {
+    const { traineeTableData } = this.state;
     event.stopPropagation();
     this.setState({
       [field]: true,
     });
-    traineeListData.map(key => (
-      key.id === id
+    traineeTableData.map(key => (
+      key._id === _id
         ? this.setState({
           traineeData: key,
         })
@@ -100,9 +85,13 @@ class TraineeList extends Component {
     console.log('Deleted Data', data);
   }
 
-  handleToShowTableData = id => () => {
+  handleToShowTableData = _id => () => {
     const { match, history } = this.props;
-    history.push(`${match.path}/trainee-detail/${id}`);
+    const { traineeTableData } = this.state;
+    history.push({
+      pathname: `${match.path}/trainee-detail/${_id}`,
+      state: { data: traineeTableData },
+    });
   }
 
   handleTableSorting = (order, orderBy) => () => {
@@ -120,91 +109,121 @@ class TraineeList extends Component {
   handleOnChangeRowsPerPage = (event) => {
     this.setState({
 	    tableRowsPerPage: event.target.value,
-	  });
+    });
+  }
+
+  handleTableData = async () => {
+    const { handleOpenSnack } = this.props;
+    const { limit, skip } = this.state;
+    this.setState({
+      tableLoader: true,
+    });
+    try {
+      const response = await getTraineeData(limit, skip);
+      this.setState({
+        tableLoader: false,
+        traineeTableData: response.data.data.records,
+      });
+	      handleOpenSnack('Table Updated', '#4BB543')();
+    } catch (err) {
+      this.setState({
+        tableLoader: false,
+      });
+      handleOpenSnack('Something.. went wrong!', '#ff0000')();
+    }
   }
 
   handleOnChangePage = (event, newPage) => {
+    const { limit, skip, tableRowsPerPage } = this.state;
     this.setState({
-	    tablePage: newPage,
-	  });
+      tablePage: newPage,
+      skip: skip + limit,
+      tableLoader: true,
+    });
+    this.handleTableData();
   }
 
-	handleSubmit = (data, handleOpenSnack) => {
+	handleSubmit = async (data) => {
 	  const {
-	    name, email, password, rePassword,
+	    name, email, password,
 	  } = data;
+	  const { handleOpenSnack } = this.props;
 	  this.setState({
-	    name,
-	    email,
-	    password,
-	    rePassword,
-	    open: false,
+	    loader: true,
 	  });
-	  handleOpenSnack();
+	  try {
+	    const response = postTraineeData({
+	      data: {
+	        name,
+	        email,
+	        password,
+	      },
+	    });
+	    this.setState({
+	      loader: false,
+	    });
+	    this.handleClose('open')();
+	    handleOpenSnack('Trainee added Successfully', '#4BB543')();
+	  } catch (err) {
+	    this.setState({
+	      loader: false,
+	    });
+	    this.handleClose('open')();
+	    handleOpenSnack('Trainee not added !', '#ff0000')();
+	  }
 	}
 
 	render() {
 	  const {
-	    open, name, email, password, rePassword, tableOrder, orderBy, tablePage,
-	    tableRowsPerPage, tableRowsPerPageOptions, deleteDialog, editDialog, traineeData, cricketerId,
+	    open, tableOrder, orderBy, tablePage, tableRowsPerPage, tableRowsPerPageOptions, deleteDialog,
+	    editDialog, traineeData, loader, tableLoader, traineeTableData,
 	  } = this.state;
-	  const { match, classes } = this.props;
-	  const cricketersList = traineeListData.map(data => (
-          <List key={data.id}>
-            <ListItem alignItems="flex-start">
-              <ListItemAvatar>
-                <Avatar key={data.id} src={data.src} />
-              </ListItemAvatar>
-              <Link className={classes.list} to={`${match.url}/trainee-detail/${data.id}`}>
-              {data.name}
-              </Link>
-            </ListItem>
-            <Divider variant="inset" component="li" />
-          </List>
-	  ));
 	  const tableActions = [
 	    {
 	      icons: <Edit />,
-	      handler: this.handleDialogOpen('editDialog'),
+	      handler: this.handleTableActionDialogs('editDialog'),
 	    },
 	    {
 	      icons: <Delete />,
-	      handler: this.handleDialogOpen('deleteDialog'),
+	      handler: this.handleTableActionDialogs('deleteDialog'),
 	    },
 	  ];
 
 	  return (
-			<React.Fragment>
-					<Button variant="contained" color="primary" onClick={this.handleOpen}>Add Trainee List</Button>
-          {
+  <React.Fragment>
+    <Button variant="contained" color="primary" onClick={this.handleOpen}>Add Trainee List</Button>
+    {
             open
               ? (
                 <AddDialog
                   open={open}
+                  loader={loader}
                   onClose={this.handleClose('open')}
-                  onChange={this.handleChange}
                   onSubmit={this.handleSubmit}
                 />
               )
               : <Paragraph text="Click Button to Show Dialog" />
           }
-          <SimpleTable
-            tableId={traineeTableId}
-            tableData={traineeListData}
-            tableColumns={traineeTableColumns}
-            orderBy={orderBy}
-            order={tableOrder}
-            onSort={this.handleTableSorting}
-            onSelect={this.handleToShowTableData}
-            count={traineeListData.length}
-            rowsPerPage={tableRowsPerPage}
-            page={tablePage}
-            rowsPerPageOptions={tableRowsPerPageOptions}
-            onChangeRowsPerPage={this.handleOnChangeRowsPerPage}
-            onChangePage={this.handleOnChangePage}
-            actions={tableActions}
-          />
-          {
+    {
+      <SimpleTable
+        tableId={traineeTableId}
+        tableData={traineeTableData}
+        tableColumns={traineeTableColumns}
+        orderBy={orderBy}
+        order={tableOrder}
+        onSort={this.handleTableSorting}
+        onSelect={this.handleToShowTableData}
+        count={traineeTableData.length}
+        rowsPerPage={tableRowsPerPage}
+        page={tablePage}
+        rowsPerPageOptions={tableRowsPerPageOptions}
+        onChangeRowsPerPage={this.handleOnChangeRowsPerPage}
+        onChangePage={this.handleOnChangePage}
+        actions={tableActions}
+        loader={tableLoader}
+      />
+          }
+    {
             deleteDialog
               ? (
                 <DeleteDialog
@@ -215,7 +234,7 @@ class TraineeList extends Component {
                 />
               ) : ''
           }
-          {
+    {
             editDialog
               ? (
                 <EditDialog
@@ -226,14 +245,10 @@ class TraineeList extends Component {
                 />
               ) : ''
           }
-          <br />
-          <br />
-          {
-            cricketersList
-          }
-			</React.Fragment>
+    <br />
+  </React.Fragment>
 	  );
 	}
 }
 
-export default withStyles(useStyles)(TraineeList);
+export default snackBarHOC(withStyles(useStyles)(TraineeList));

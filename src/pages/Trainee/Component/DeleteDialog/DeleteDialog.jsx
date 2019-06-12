@@ -7,7 +7,7 @@ import React, { Component } from 'react';
 import {
   Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button,
 } from '@material-ui/core';
-import { SnackBarContext } from '../../../../components';
+import { snackBarHOC } from '../../../../components';
 import { getDateFormat } from '../../Data';
 
 class DeleteDialog extends Component {
@@ -16,13 +16,17 @@ class DeleteDialog extends Component {
 	  onClose();
   };
 
-  handleSubmit = handleOpenSnack => () => {
-    const { onSubmit, onClose, data } = this.props;
-    onSubmit(data);
-    if (data.createdAt < getDateFormat('2019-02-14')) {
-      onClose(handleOpenSnack('Sorry trainee cannot be deleted', '#FF0000'));
+  handleSubmit = () => {
+    const {
+      onSubmit, onClose, data, handleOpenSnack,
+    } = this.props;
+    if (data.createdAt > getDateFormat('2019-02-14')) {
+      handleOpenSnack('Trainee Deleted Successfully', '#4BB543')();
+      onClose();
     } else {
-      onClose(handleOpenSnack('Trainee Deleted Successfully', '#4BB543'));
+      onSubmit(data);
+      handleOpenSnack('Sorry trainee cannot be deleted', '#FF0000')();
+      onClose();
     }
   }
 
@@ -46,14 +50,9 @@ class DeleteDialog extends Component {
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <SnackBarContext.Consumer>
-              { handleOpenSnack => (
-                <Button onClick={this.handleSubmit(handleOpenSnack)} color="primary" autofocus>
-                  Delete
-                </Button>
-              )
-              }
-            </SnackBarContext.Consumer>
+            <Button onClick={this.handleSubmit} color="primary" autofocus>
+              Delete
+            </Button>
           </DialogActions>
         </Dialog>
       </React.Fragment>
@@ -61,4 +60,4 @@ class DeleteDialog extends Component {
   }
 }
 
-export default DeleteDialog;
+export default snackBarHOC(DeleteDialog);

@@ -10,7 +10,7 @@
 /* eslint-disable react/prefer-stateless-function */
 import {
   Dialog, TextField, DialogTitle, DialogActions, DialogContent, Button, Grid,
-  InputAdornment, IconButton, Input, InputLabel, FormControl, Paper,
+  InputAdornment, IconButton, Input, InputLabel, FormControl, Paper, CircularProgress,
 } from '@material-ui/core';
 import {
   Visibility, VisibilityOff,
@@ -96,7 +96,7 @@ class AddDialog extends Component {
 	  onClose();
 	};
 
-	handleSubmit = handleOpenSnack => (event) => {
+	handleSubmit = (event) => {
 	  const { onSubmit } = this.props;
 	  this.setState({
 	    name: event.target.value,
@@ -104,7 +104,7 @@ class AddDialog extends Component {
 	    password: event.target.value,
 	    rePassword: event.target.value,
 	  });
-	  onSubmit(this.state, handleOpenSnack);
+	  onSubmit(this.state);
 	};
 
 	handleTouch = field => () => {
@@ -149,7 +149,7 @@ class AddDialog extends Component {
 
 
 	render() {
-	  const { open } = this.props;
+	  const { open, loader } = this.props;
 
 	  const {
 	    showPassword, showRePassword, isError, nameTouched, emailTouched,
@@ -157,9 +157,10 @@ class AddDialog extends Component {
 	  } = this.state;
 
 	  return (
+     <React.Fragment>
 			<Dialog
 				open={open}
-				disableBackdropClick
+        disableBackdropClick
 				onClose={this.handleClose}
 				aria-labelledby="responsive-dialog-title"
 			>
@@ -251,20 +252,20 @@ class AddDialog extends Component {
 				<Button onClick={this.handleClose} color="primary">
 							Cancel
 				</Button>
-          <SnackBarContext.Consumer>
-            { handleOpenSnack => (
-                  <Button
-                    disabled={isError || !nameTouched || !emailTouched || !passwordTouched || !rePasswordTouched}
-                    onClick={this.handleSubmit(handleOpenSnack('Trainee Added Successfully', '#4BB543'))}
-                    color="primary"
-                  >
-                    Submit
-                  </Button>
-            )
-            }
-          </SnackBarContext.Consumer>
+        <Button
+          disabled={isError || !nameTouched || !emailTouched || !passwordTouched || !rePasswordTouched}
+          onClick={this.handleSubmit}
+          color="primary"
+        >
+        {
+          loader
+            ? <CircularProgress />
+            : 'Submit'
+        }
+        </Button>
 				</DialogActions>
 			</Dialog>
+     </React.Fragment>
 	  );
 	}
 }
