@@ -9,7 +9,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/prefer-stateless-function */
 import {
-  Dialog, TextField, DialogTitle, DialogActions, DialogContent, Button, Grid, InputAdornment, IconButton, Input, InputLabel, FormControl, Paper,
+  Dialog, TextField, DialogTitle, DialogActions, DialogContent, Button, Grid,
+  InputAdornment, IconButton, Input, InputLabel, FormControl, Paper,
 } from '@material-ui/core';
 import {
   Visibility, VisibilityOff,
