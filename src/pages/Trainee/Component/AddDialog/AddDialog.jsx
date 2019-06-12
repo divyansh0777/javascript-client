@@ -137,9 +137,6 @@ class AddDialog extends Component {
 	      error.inner.forEach((err) => {
 	        parsedError[err.path] = err.message;
 	      });
-
-	      console.log('getError', parsedError);
-
 	      this.setState({
 	        isError: true,
 	        getError: parsedError,
@@ -174,7 +171,7 @@ class AddDialog extends Component {
 										error={nameTouched && !!this.getFieldError('name')}
                     helperText={nameTouched && this.getFieldError('name')}
                     autoComplete="on"
-										autoFocus
+                    autoFocus
 										margin="dense"
 										id="name"
 										label="Enter your name"
@@ -214,8 +211,8 @@ class AddDialog extends Component {
 												InputProps={{
 												  endAdornment:
                            <InputAdornment position="end">
-                            <IconButton aria-label="Toggle password visibility" onClick={this.handleClickShowRePassword}>
-                              {showRePassword ? <Visibility /> : <VisibilityOff />}
+                            <IconButton aria-label="Toggle password visibility" onClick={this.handleClickShowPassword}>
+                              {showPassword ? <Visibility /> : <VisibilityOff />}
                             </IconButton>
                            </InputAdornment>,
 												}}

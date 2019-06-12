@@ -19,8 +19,17 @@ class FormValidationDemo extends Component {
 	  radio: '',
 	  isError: true,
 	  getError: null,
+	  nameTouched: false,
+	  selectTouched: false,
+	  radioTouched: false,
 	}
+
 	/*---------------------------------*/
+  handleTouch = field => () => {
+    this.setState({
+	  [field]: true,
+	  });
+  };
 
 	validation = () => {
 	  const { name, select, radio } = this.state;
@@ -79,29 +88,29 @@ class FormValidationDemo extends Component {
 	  if (select === 'Cricket') {
 	    return (
   <React.Fragment>
-		<div>
-			<Radio name="Cricketer" text="Wicket Keeper" value="Wicket Keeper" onChange={this.handleRadio} checked={radio === 'Wicket Keeper'} />
-		</div>
-		<div>
-			<Radio name="Cricketer" text="Batsman" value="Batsman" onChange={this.handleRadio} checked={radio === 'Batsman'} />
-		</div>
-		<div>
-			<Radio name="Cricketer" text="Bowler" value="Bowler" onChange={this.handleRadio} checked={radio === 'Bowler'} />
-		</div>
-		<div>
-			<Radio name="Cricketer" text="Fielder" value="Fielder" onChange={this.handleRadio} checked={radio === 'Fielder'} />
-		</div>
+    <div>
+      <Radio onFocus={this.handleTouch('radioTouched')} name="Cricketer" text="Wicket Keeper" value="Wicket Keeper" onChange={this.handleRadio} checked={radio === 'Wicket Keeper'} />
+    </div>
+    <div>
+      <Radio onFocus={this.handleTouch('radioTouched')} name="Cricketer" text="Batsman" value="Batsman" onChange={this.handleRadio} checked={radio === 'Batsman'} />
+    </div>
+    <div>
+      <Radio onFocus={this.handleTouch('radioTouched')} name="Cricketer" text="Bowler" value="Bowler" onChange={this.handleRadio} checked={radio === 'Bowler'} />
+    </div>
+    <div>
+      <Radio onFocus={this.handleTouch('radioTouched')} name="Cricketer" text="Fielder" value="Fielder" onChange={this.handleRadio} checked={radio === 'Fielder'} />
+    </div>
   </React.Fragment>
 	    );
 	  } if (select === 'Football') {
 	    return (
   <React.Fragment>
-		<div>
-			<Radio name="Football" text="Defender" value="Defender" onChange={this.handleRadio} checked={radio === 'Defender'} />
-		</div>
-		<div>
-			<Radio name="Football" text="Striker" value="Striker" onChange={this.handleRadio} checked={radio === 'Striker'} />
-		</div>
+    <div>
+      <Radio onFocus={this.handleTouch('radioTouched')} name="Football" text="Defender" value="Defender" onChange={this.handleRadio} checked={radio === 'Defender'} />
+    </div>
+    <div>
+      <Radio onFocus={this.handleTouch('radioTouched')} name="Football" text="Striker" value="Striker" onChange={this.handleRadio} checked={radio === 'Striker'} />
+    </div>
   </React.Fragment>
 	    );
 	  }
@@ -114,9 +123,9 @@ class FormValidationDemo extends Component {
 
 	render() {
 	  const {
-	    select, isError, getError, name,
+	    select, isError, getError, name, nameTouched, selectTouched, radioTouched, radio,
 	  } = this.state;
-	  console.log(this.state);
+	  console.log(name, select, radio);
 	  return (
 
   <React.Fragment>
@@ -128,31 +137,33 @@ class FormValidationDemo extends Component {
           style={style.textBox}
           placeholder="Enter Name"
           onChange={this.handleName}
+          onFocus={this.handleTouch('nameTouched')}
           value={name}
           autoFocus
         />
 
-        <Paragraph style={style.error} text={getError && getError.name} />
+        <Paragraph style={style.error} text={nameTouched && getError && getError.name} />
 
         <br />
         <Paragraph style={style.paragraphStyle} text="Select game you play" />
         <br />
-        <Select style={style.select} value={select} onChange={this.handleSelect}>
+        <Select style={style.select} onFocus={this.handleTouch('selectTouched')} value={select} onChange={this.handleSelect}>
           <Option style={style.option} value="" text="Select" />
           <Option style={style.option} value="Cricket" text="Cricket" />
           <Option style={style.option} value="Football" text="Football" />
         </Select>
 
-        <Paragraph style={style.error} text={getError ? getError.select : ''} />
+        <Paragraph style={style.error} text={selectTouched && getError ? getError.select : ''} />
 
         <br />
         <br />
         <div>
           {
-						(select.length) ? this.showRadio() : <Paragraph style={style.paragraphStyle} text="Select options above for appropriate values" />
+            (select.length)
+              ? this.showRadio()
+              : <Paragraph style={style.paragraphStyle} text="Select options above for appropriate values" />
 					}
-          <Paragraph style={style.error} text={getError ? getError.radio : ''} />
-
+          <Paragraph style={style.error} text={radioTouched && getError ? getError.radio : ''} />
         </div>
         <br />
         <br />
@@ -163,7 +174,6 @@ class FormValidationDemo extends Component {
             value="Cancel"
             onClick={this.handleReset}
           />
-
           <Submit
             disabled={isError}
             style={style.submit}
