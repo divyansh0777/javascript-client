@@ -14,7 +14,6 @@ const style = theme => ({
 class NoMatch extends Component {
   render() {
     const { classes } = this.props;
-
     return (
       <React.Fragment>
         <CssBaseline />

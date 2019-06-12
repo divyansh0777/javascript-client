@@ -1,9 +1,8 @@
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
-import { Switch } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import AuthRoute from './AuthRoute';
 import PrivateRoute from './PrivateRoute';
-import { NavBar } from '../Layouts';
 import {
   TextFieldDemo,
   BasicSliderDemo,
@@ -20,15 +19,14 @@ class StartRouting extends Component {
     return (
       <React.Fragment>
         <Switch>
-          <AuthRoute exact path="/login" component={Login} />
-          <AuthRoute exact path="/" component={NavBar} />
+          <AuthRoute exact path="/" component={Login} />
           <PrivateRoute exact path="/input-demo" component={InputDemo} />
           <PrivateRoute exact path="/textfield-demo" component={TextFieldDemo} />
           <PrivateRoute exact path="/children-demo" component={ChildrenDemo} />
           <PrivateRoute path="/trainee" component={Trainee} />
           <PrivateRoute exact path="/form-validation-demo" component={FormValidationDemo} />
           <PrivateRoute exact path="/basic-slider-demo" component={BasicSliderDemo} />
-          <PrivateRoute component={NoMatch} />
+          <Route component={NoMatch} />
         </Switch>
       </React.Fragment>
     );

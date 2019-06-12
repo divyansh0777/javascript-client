@@ -5,7 +5,7 @@ import {
   AppBar, Button, Typography, Grid, CssBaseline,
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 const styles = () => ({
   root: {
@@ -27,8 +27,20 @@ const styles = () => ({
 });
 
 class NavBar extends Component {
+  state = {
+    logout: false,
+  }
+
+  logoutHandler = () => {
+    localStorage.removeItem('token');
+    this.setState({
+      logout: true,
+    });
+  }
+
   render() {
     const { classes } = this.props;
+    const { logout } = this.state;
     return (
       <React.Fragment>
         <CssBaseline />
@@ -88,9 +100,12 @@ class NavBar extends Component {
                     </Link>
                   </Grid>
                   <Grid item xs="auto">
-                    <Link className={classes.link} to="/logout">
-                      <Button className={classes.button}>LOGOUT</Button>
-                    </Link>
+                    <Button onClick={this.logoutHandler} className={classes.button}>LOGOUT</Button>
+                    {
+                      logout
+                        ? <Redirect to="/" />
+                        : ''
+                    }
                   </Grid>
                 </Grid>
               </Grid>
