@@ -1,14 +1,17 @@
-/* eslint-disable react/prefer-stateless-function */
+/* eslint-disable max-len */
+/* eslint-disable react/prefer-stateless-*/
 /* eslint-disable react/no-unused-state */
 /* eslint-disable react/prop-types */
-/* eslint-disable max-len */
 /* eslint-disable object-curly-newline */
 /* eslint-disable no-console */
 import React, { Component } from 'react';
 import {
-  Paper, Table, TableHead, TableRow, TableCell, TableBody, TableSortLabel,
+  Paper, Table, TableHead, TableRow, TableCell, TableBody, TableSortLabel, TableFooter,
+  TablePagination,
+  IconButton,
 } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, useTheme } from '@material-ui/core/styles';
+import { KeyboardArrowRight, KeyboardArrowLeft } from '@material-ui/icons';
 
 const useStyles = theme => ({
   root: {
@@ -31,9 +34,38 @@ const useStyles = theme => ({
 });
 
 class SimpleTable extends Component {
+  TablePaginationActions = () => {
+    const { onChangePage, page, count, rowsPerPage } = this.props;
+    const theme = useTheme();
+
+    const handleBackButtonClick = (event) => {
+      onChangePage(event, page - 1);
+    };
+
+    const handleNextButtonClick = (event) => {
+      onChangePage(event, page + 1);
+    };
+
+    return (
+      <React.Fragment>
+        <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="Previous Page">
+          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
+        </IconButton>
+        <IconButton
+          onClick={handleNextButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="Next Page"
+        >
+          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        </IconButton>
+      </React.Fragment>
+    );
+  }
+
   render() {
-    const { classes, tableId, tableColumns, tableData, onSelect, orderBy, order, onSort } = this.props;
-    // const { activeSortingLabel } = this.state;
+    const { classes, tableId, tableColumns, tableData, onSelect, orderBy, order,
+      onSort, count, rowsPerPage, page, rowsPerPageOptions, actions, onChangeRowsPerPage,
+      onChangePage } = this.props;
     const createColumns = tableColumns.map(key => (
       <TableCell className={classes.tableHeadColor} key={key.label || key.field} align={key.align || 'center'}>
         <TableSortLabel
@@ -46,14 +78,25 @@ class SimpleTable extends Component {
     ));
 
     const createRows = tableData.map(key => (
-      <TableRow onClick={onSelect(key.id)} hover key={key.id}>
+      <TableRow key={key.id} onClick={onSelect(key.id)} hover>
         {
           tableColumns.map(col => (
             col.format
-              ? <TableCell align={col.align}>{col.format(key[col.field || col.label])}</TableCell>
-              : <TableCell align={col.align}>{key[col.field || col.label.toLowerCase()]}</TableCell>
+              ? <TableCell key={col.label} align={col.align}>{col.format(key[col.field || col.label])}</TableCell>
+              : <TableCell key={col.label} align={col.align}>{key[col.field || col.label.toLowerCase()]}</TableCell>
           ))
         }
+        <TableCell key={key.src}>
+          {
+            actions.map(button => (
+              <IconButton key={button.icons} onClick={event => button.handler(event, key.id)}>
+                {
+                  button.icons
+                }
+              </IconButton>
+            ))
+          }
+        </TableCell>
       </TableRow>
     ));
 
@@ -73,11 +116,32 @@ class SimpleTable extends Component {
                   createRows
               }
             </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  className={classes.tableHeadColor}
+                  rowsPerPageOptions={rowsPerPageOptions}
+                  count={count}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  SelectProps={{
+                    native: true,
+                  }}
+                  onChangePage={onChangePage}
+                  onChangeRowsPerPage={onChangeRowsPerPage}
+                  ActionsComponent={this.TablePaginationActions}
+                />
+              </TableRow>
+            </TableFooter>
           </Table>
         </Paper>
       </React.Fragment>
     );
   }
 }
+
+SimpleTable.defaultProps = {
+  page: 0,
+};
 
 export default withStyles(useStyles)(SimpleTable);

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
 import {
@@ -16,7 +17,7 @@ class Footer extends Component {
     return (
       <React.Fragment>
         <CssBaseline />
-        <Container className={classes.container} axWidth="xs">
+        <Container className={classes.container} maxWidth="xs">
           <Typography>@ Successive Technologies</Typography>
         </Container>
       </React.Fragment>

@@ -17,6 +17,7 @@ import {
 } from '@material-ui/icons';
 import React, { Component } from 'react';
 import yupValidationSchema from './yupValidationSchema';
+import { SnackBarContext } from '../../../../components';
 
 class AddDialog extends Component {
 	state = {
@@ -95,7 +96,7 @@ class AddDialog extends Component {
 	  onClose();
 	};
 
-	handleSubmit = (event) => {
+	handleSubmit = handleOpenSnack => (event) => {
 	  const { onSubmit } = this.props;
 	  this.setState({
 	    name: event.target.value,
@@ -103,7 +104,7 @@ class AddDialog extends Component {
 	    password: event.target.value,
 	    rePassword: event.target.value,
 	  });
-	  onSubmit(this.state);
+	  onSubmit(this.state, handleOpenSnack);
 	};
 
 	handleTouch = field => () => {
@@ -151,7 +152,8 @@ class AddDialog extends Component {
 	  const { open } = this.props;
 
 	  const {
-	    showPassword, showRePassword, isError, nameTouched, emailTouched, passwordTouched, rePasswordTouched,
+	    showPassword, showRePassword, isError, nameTouched, emailTouched,
+	    passwordTouched, rePasswordTouched,
 	  } = this.state;
 
 	  return (
@@ -238,7 +240,6 @@ class AddDialog extends Component {
                            </InputAdornment>,
                         }}
 											/>
-                      {/* <Paper>{passwordTouched && this.getFieldError('rePassword')}</Paper> */}
 										</FormControl>
 									</Grid>
 								</Grid>
@@ -250,9 +251,18 @@ class AddDialog extends Component {
 				<Button onClick={this.handleClose} color="primary">
 							Cancel
 				</Button>
-				<Button disabled={isError} onClick={this.handleSubmit} color="primary">
-							Submit
-    </Button>
+          <SnackBarContext.Consumer>
+            { handleOpenSnack => (
+                  <Button
+                    disabled={isError || !nameTouched || !emailTouched || !passwordTouched || !rePasswordTouched}
+                    onClick={this.handleSubmit(handleOpenSnack('Trainee Added Successfully', '#4BB543'))}
+                    color="primary"
+                  >
+                    Submit
+                  </Button>
+            )
+            }
+          </SnackBarContext.Consumer>
 				</DialogActions>
 			</Dialog>
 	  );
