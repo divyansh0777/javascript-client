@@ -5,22 +5,19 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable no-tabs */
 import React, { Component } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Container, Grid } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import { Edit, Delete } from '@material-ui/icons';
-import Axios from 'axios';
 import { Paragraph, SimpleTable, snackBarHOC } from '../../components';
 import {
+  isDateAfter,
   traineeTableColumns,
   traineeTableId,
 } from './Data';
 import { AddDialog, DeleteDialog, EditDialog } from './Component';
-import { configuration } from '../../configs/configuration';
-import * as nextApi from '../../libs/Utils/APIConstants';
-import { axiosConfigure } from '../../configs/Axios';
-import { getTraineeData, postTraineeData } from '../../libs/Utils/API';
-
-axiosConfigure();
+import {
+  getTraineeData, postTraineeData, editTraineeData, deleteTraineeData,
+} from '../../libs/Utils/API';
 
 const useStyles = () => ({
   list: {
@@ -35,6 +32,7 @@ class TraineeList extends Component {
 	  tableLoader: true,
 	  tableOrder: 'asc',
 	  orderBy: 'name',
+	  tableDataLoaded: false,
 	  tableRowsPerPage: 5,
 	  tablePage: 0,
 	  tableRowsPerPageOptions: [],
@@ -44,10 +42,14 @@ class TraineeList extends Component {
 	  traineeTableData: [],
 	  limit: 5,
 	  skip: 0,
+	  actionLoader: false,
 	}
 
-	componentDidMount() {
-	  this.handleTableData();
+	async componentDidMount() {
+	  await this.handleTableData();
+	  await this.setState({
+	    tableDataLoaded: true,
+	  });
 	}
 
 	handleOpen = () => {
@@ -77,12 +79,66 @@ class TraineeList extends Component {
     ));
   }
 
-  handleEditSubmit = (data) => {
-    console.log('Edited Data - ', data);
+  handleEditSubmit = async (data) => {
+    const { handleOpenSnack } = this.props;
+    const { tableDataLoaded } = this.state;
+    const { _id, name, email } = data;
+    this.setState({
+      actionLoader: true,
+    });
+    try {
+      if (tableDataLoaded) {
+        const response = await editTraineeData({ _id, name, email });
+        this.setState({
+          actionLoader: false,
+          editDialog: false,
+          tableDataLoaded: false,
+        });
+        handleOpenSnack('Trainee Edited Successfully', '#4BB543')();
+      } else {
+        this.componentDidMount();
+      }
+    } catch (error) {
+      this.setState({
+        actionLoader: false,
+        editDialog: false,
+      });
+      handleOpenSnack('Trainee not edited..!', '#ff0000')();
+    }
   }
 
-  handleDeleteSubmit = (data) => {
-    console.log('Deleted Data', data);
+  handleDeleteSubmit = async (data) => {
+    const { handleOpenSnack } = this.props;
+    const { tableDataLoaded } = this.state;
+    const { _id, createdAt } = data;
+    this.setState({
+      actionLoader: true,
+    });
+
+    try {
+      if (tableDataLoaded) {
+        if (isDateAfter(data.createdAt, '2019-02-14')) {
+          const response = await deleteTraineeData({ _id });
+          this.setState({
+            actionLoader: false,
+            deleteDialog: false,
+            tableDataLoaded: false,
+          });
+          this.componentDidMount();
+          handleOpenSnack('Trainee Deleted Successfully', '#4BB543')();
+        } else {
+          throw new Error();
+        }
+      } else {
+        this.componentDidMount();
+      }
+    } catch (error) {
+      this.setState({
+        actionLoader: false,
+        deleteDialog: false,
+      });
+      handleOpenSnack('Trainee not deleted..!', '#ff0000')();
+    }
   }
 
   handleToShowTableData = _id => () => {
@@ -152,13 +208,7 @@ class TraineeList extends Component {
 	    loader: true,
 	  });
 	  try {
-	    const response = postTraineeData({
-	      data: {
-	        name,
-	        email,
-	        password,
-	      },
-	    });
+	    const response = await postTraineeData(name, email, password);
 	    this.setState({
 	      loader: false,
 	    });
@@ -171,12 +221,12 @@ class TraineeList extends Component {
 	    this.handleClose('open')();
 	    handleOpenSnack('Trainee not added !', '#ff0000')();
 	  }
-	}
+	};
 
 	render() {
 	  const {
 	    open, tableOrder, orderBy, tablePage, tableRowsPerPage, tableRowsPerPageOptions, deleteDialog,
-	    editDialog, traineeData, loader, tableLoader, traineeTableData,
+	    editDialog, traineeData, loader, tableLoader, traineeTableData, actionLoader,
 	  } = this.state;
 	  const tableActions = [
 	    {
@@ -231,6 +281,7 @@ class TraineeList extends Component {
                   onClose={this.handleClose('deleteDialog')}
                   onSubmit={this.handleDeleteSubmit}
                   data={traineeData}
+                  actionLoader={actionLoader}
                 />
               ) : ''
           }
@@ -242,6 +293,7 @@ class TraineeList extends Component {
                   onClose={this.handleClose('editDialog')}
                   onSubmit={this.handleEditSubmit}
                   data={traineeData}
+                  actionLoader={actionLoader}
                 />
               ) : ''
           }

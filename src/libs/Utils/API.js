@@ -31,11 +31,35 @@ export const getTraineeData = async (limit, skip) => {
   }
 };
 
-export const postTraineeData = async ({ data = {} }) => {
+export const postTraineeData = async (data) => {
   try {
-    const response = Axios.post(`${configuration.url}${nextApi.trainee}`, {
+    const response = await Axios.post(`${configuration.url}${nextApi.trainee}`, {
       data,
     });
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const editTraineeData = async (data) => {
+  const { _id, name, email } = data;
+  try {
+    const response = await Axios.put(`${configuration.url}${nextApi.trainee}`, {
+      id: _id,
+      name,
+      email,
+    });
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const deleteTraineeData = async (data) => {
+  const { _id } = data;
+  try {
+    const response = await Axios.delete(`${configuration.url}${nextApi.trainee}/${_id}`);
     return response;
   } catch (err) {
     return err;

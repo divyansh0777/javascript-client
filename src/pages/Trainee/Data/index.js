@@ -1,2 +1,2 @@
 export { traineeListData, traineeTableColumns, traineeTableId } from './TraineeListData';
-export { getDateFormat } from './trainee';
+export { getDateFormat, isDateAfter } from './trainee';

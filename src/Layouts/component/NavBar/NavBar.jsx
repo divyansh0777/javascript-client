@@ -54,7 +54,7 @@ class NavBar extends Component {
               alignItems="center"
             >
               <Grid item xs={2}>
-                <Link className={classes.link} to="/login">
+                <Link className={classes.link} to="/">
                   <Typography variant="h6" className={classes.title}>
                     Trainee Portal
                   </Typography>
