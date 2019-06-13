@@ -98,13 +98,8 @@ class AddDialog extends Component {
 
 	handleSubmit = (event) => {
 	  const { onSubmit } = this.props;
-	  this.setState({
-	    name: event.target.value,
-	    email: event.target.value,
-	    password: event.target.value,
-	    rePassword: event.target.value,
-	  });
-	  onSubmit(this.state);
+	  const { name, email, password } = this.state;
+	  onSubmit({ name, email, password });
 	};
 
 	handleTouch = field => () => {
@@ -150,7 +145,6 @@ class AddDialog extends Component {
 
 	render() {
 	  const { open, loader } = this.props;
-
 	  const {
 	    showPassword, showRePassword, isError, nameTouched, emailTouched,
 	    passwordTouched, rePasswordTouched,

@@ -79,7 +79,7 @@ class SimpleTable extends Component {
       </TableCell>
     ));
 
-    const createRows = tableData.map(key => (
+    const createRows = tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(key => (
       <TableRow key={key._id} onClick={onSelect(key._id)} hover>
         {
           tableColumns.map(col => (

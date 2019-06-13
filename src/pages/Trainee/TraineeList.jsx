@@ -40,7 +40,7 @@ class TraineeList extends Component {
 	  editDialog: false,
 	  traineeData: [],
 	  traineeTableData: [],
-	  limit: 5,
+	  limit: 0,
 	  skip: 0,
 	  actionLoader: false,
 	}
@@ -94,7 +94,7 @@ class TraineeList extends Component {
           editDialog: false,
           tableDataLoaded: false,
         });
-        handleOpenSnack('Trainee Edited Successfully', '#4BB543')();
+        handleOpenSnack('Trainee Edited Successfully', 'success')();
       } else {
         this.componentDidMount();
       }
@@ -103,7 +103,7 @@ class TraineeList extends Component {
         actionLoader: false,
         editDialog: false,
       });
-      handleOpenSnack('Trainee not edited..!', '#ff0000')();
+      handleOpenSnack('Trainee not edited..!', 'error')();
     }
   }
 
@@ -117,7 +117,7 @@ class TraineeList extends Component {
 
     try {
       if (tableDataLoaded) {
-        if (isDateAfter(data.createdAt, '2019-02-14')) {
+        if (isDateAfter(createdAt, '2019-02-14')) {
           const response = await deleteTraineeData({ _id });
           this.setState({
             actionLoader: false,
@@ -125,7 +125,7 @@ class TraineeList extends Component {
             tableDataLoaded: false,
           });
           this.componentDidMount();
-          handleOpenSnack('Trainee Deleted Successfully', '#4BB543')();
+          handleOpenSnack('Trainee Deleted Successfully', 'success')();
         } else {
           throw new Error();
         }
@@ -137,7 +137,7 @@ class TraineeList extends Component {
         actionLoader: false,
         deleteDialog: false,
       });
-      handleOpenSnack('Trainee not deleted..!', '#ff0000')();
+      handleOpenSnack('Trainee not deleted..!', 'error')();
     }
   }
 
@@ -180,12 +180,12 @@ class TraineeList extends Component {
         tableLoader: false,
         traineeTableData: response.data.data.records,
       });
-	      handleOpenSnack('Table Updated', '#4BB543')();
+	      handleOpenSnack('Table Updated', 'success')();
     } catch (err) {
       this.setState({
         tableLoader: false,
       });
-      handleOpenSnack('Something.. went wrong!', '#ff0000')();
+      handleOpenSnack('Something.. went wrong!', 'error')();
     }
   }
 
@@ -200,26 +200,25 @@ class TraineeList extends Component {
   }
 
 	handleSubmit = async (data) => {
-	  const {
-	    name, email, password,
-	  } = data;
 	  const { handleOpenSnack } = this.props;
 	  this.setState({
 	    loader: true,
 	  });
 	  try {
-	    const response = await postTraineeData(name, email, password);
-	    this.setState({
-	      loader: false,
-	    });
-	    this.handleClose('open')();
-	    handleOpenSnack('Trainee added Successfully', '#4BB543')();
+	      const response = await postTraineeData(data);
+	      this.setState({
+	        open: false,
+	        loader: false,
+	        tableDataLoaded: false,
+	      });
+	      handleOpenSnack('Trainee added Successfully', 'success')();
+	      this.componentDidMount();
 	  } catch (err) {
 	    this.setState({
 	      loader: false,
 	    });
 	    this.handleClose('open')();
-	    handleOpenSnack('Trainee not added !', '#ff0000')();
+	    handleOpenSnack('Trainee not added !', 'error')();
 	  }
 	};
 

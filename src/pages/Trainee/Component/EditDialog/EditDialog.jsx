@@ -74,11 +74,13 @@ class EditDialog extends Component {
                     <TextField
                       autoComplete="off"
                       autoFocus
+                      placeholder="Enter your name"
                       margin="dense"
                       id="name"
                       type="text"
                       onChange={this.handleNameChange}
                       defaultValue={name}
+                      label="Name"
                     />
                   </FormControl>
                 </Grid>
@@ -86,11 +88,13 @@ class EditDialog extends Component {
                   <FormControl fullWidth>
                     <TextField
                       autoComplete="off"
+                      placeholder="Enter your email ID"
                       margin="dense"
                       id="email"
                       type="email"
                       onChange={this.handleEmailChange}
                       defaultValue={email}
+                      label="Email"
                     />
                   </FormControl>
                 </Grid>
