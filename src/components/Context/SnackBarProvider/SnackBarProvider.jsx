@@ -30,6 +30,7 @@ state = {
 };
 
 handleOpenSnack = (message, variant) => () => {
+  console.log(message, variant)
   if (variant === 'success') {
     this.setState({
       open: true,

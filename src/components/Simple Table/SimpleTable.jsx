@@ -38,15 +38,15 @@ const useStyles = theme => ({
 
 class SimpleTable extends Component {
   TablePaginationActions = () => {
-    const { onChangePage, page } = this.props;
+    const { onChangeForwardPage, onChangeBackwardPage, page } = this.props;
     const theme = useTheme();
 
     const handleBackButtonClick = (event) => {
-      onChangePage(event, page - 1);
+      onChangeBackwardPage(event, page - 1);
     };
 
     const handleNextButtonClick = (event) => {
-      onChangePage(event, page + 1);
+      onChangeForwardPage(event, page + 1);
     };
 
     return (

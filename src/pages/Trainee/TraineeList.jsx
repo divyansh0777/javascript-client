@@ -46,7 +46,8 @@ class TraineeList extends Component {
 	}
 
 	async componentDidMount() {
-	  await this.handleTableData();
+	  const { limit, skip } = this.state;
+	  await this.handleTableData(limit, skip);
 	  await this.setState({
 	    tableDataLoaded: true,
 	  });
@@ -168,9 +169,9 @@ class TraineeList extends Component {
     });
   }
 
-  handleTableData = async () => {
+  handleTableData = async (limit, skip) => {
     const { handleOpenSnack } = this.props;
-    const { limit, skip } = this.state;
+
     this.setState({
       tableLoader: true,
     });
@@ -189,14 +190,24 @@ class TraineeList extends Component {
     }
   }
 
-  handleOnChangePage = (event, newPage) => {
+  handleOnChangeForwardPage = async (event, newPage) => {
+    const { skip, tableRowsPerPage } = this.state;
+    this.setState({
+      tablePage: newPage,
+      skip: skip + tableRowsPerPage,
+      tableLoader: true,
+    });
+    await this.componentDidMount();
+  }
+
+  handleOnChangeBackwardPage = (event, newPage) => {
     const { limit, skip, tableRowsPerPage } = this.state;
     this.setState({
       tablePage: newPage,
-      skip: skip + limit,
+      skip: skip - tableRowsPerPage,
       tableLoader: true,
     });
-    this.handleTableData();
+    this.componentDidMount();
   }
 
 	handleSubmit = async (data) => {
@@ -267,7 +278,8 @@ class TraineeList extends Component {
         page={tablePage}
         rowsPerPageOptions={tableRowsPerPageOptions}
         onChangeRowsPerPage={this.handleOnChangeRowsPerPage}
-        onChangePage={this.handleOnChangePage}
+        onChangeForwardPage={this.handleOnChangeForwardPage}
+        onChangeBackwardPage={this.handleOnChangeBackwardPage}
         actions={tableActions}
         loader={tableLoader}
       />

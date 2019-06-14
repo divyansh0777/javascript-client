@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Link, Redirect } from 'react-router-dom';
+import { snackBarHOC } from '../../../components';
 
 const styles = () => ({
   root: {
@@ -31,11 +32,13 @@ class NavBar extends Component {
     logout: false,
   }
 
-  logoutHandler = () => {
-    localStorage.removeItem('token');
+  logoutHandler = async () => {
+    const { handleOpenSnack } = this.props;
+    await localStorage.removeItem('token');
     this.setState({
       logout: true,
     });
+    handleOpenSnack('User Logged out successfully', 'success')();
   }
 
   render() {
@@ -117,4 +120,4 @@ class NavBar extends Component {
   }
 }
 
-export default withStyles(styles)(NavBar);
+export default snackBarHOC(withStyles(styles)(NavBar));
