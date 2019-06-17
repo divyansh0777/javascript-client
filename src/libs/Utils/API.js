@@ -27,7 +27,7 @@ export const getTraineeData = async (limit, skip) => {
   }
 };
 
-export const postTraineeData = async (data) => {
+export const postTraineeData = async ({ data = {} }) => {
   try {
     const response = await Axios.post(`${configuration.url}${nextApi.trainee}`, data);
     return response;
