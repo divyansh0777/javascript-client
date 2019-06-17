@@ -1,1 +1,3 @@
-export { callLoginApi } from './API';
+export {
+  callLoginApi, getTraineeData, postTraineeData, editTraineeData, deleteTraineeData,
+} from './API';

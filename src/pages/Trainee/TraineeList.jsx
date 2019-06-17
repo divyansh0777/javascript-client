@@ -35,7 +35,7 @@ class TraineeList extends Component {
 	  tableDataLoaded: false,
 	  tableRowsPerPage: 5,
 	  tablePage: 0,
-	  tableRowsPerPageOptions: [],
+	  tableRowsPerPageOptions: [5, 10, 20, 50, 100],
 	  deleteDialog: false,
 	  editDialog: false,
 	  traineeData: [],
@@ -95,6 +95,7 @@ class TraineeList extends Component {
           editDialog: false,
           tableDataLoaded: false,
         });
+        await this.componentDidMount();
         handleOpenSnack('Trainee Edited Successfully', 'success')();
       } else {
         this.componentDidMount();
@@ -125,7 +126,7 @@ class TraineeList extends Component {
             deleteDialog: false,
             tableDataLoaded: false,
           });
-          this.componentDidMount();
+          await this.componentDidMount();
           handleOpenSnack('Trainee Deleted Successfully', 'success')();
         } else {
           throw new Error();

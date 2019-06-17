@@ -1,2 +1,4 @@
 export { randomNumber, roundRobin } from './Math/Math';
-export { callLoginApi } from './Utils';
+export {
+  callLoginApi, getTraineeData, postTraineeData, editTraineeData, deleteTraineeData,
+} from './Utils';

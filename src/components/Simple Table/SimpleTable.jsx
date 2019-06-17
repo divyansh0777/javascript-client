@@ -12,7 +12,7 @@ import {
   IconButton,
 } from '@material-ui/core';
 import { withStyles, useTheme } from '@material-ui/core/styles';
-import { KeyboardArrowRight, KeyboardArrowLeft } from '@material-ui/icons';
+import { LastPage, KeyboardArrowRight, KeyboardArrowLeft, FirstPage } from '@material-ui/icons';
 import { getDateFormat } from '../../pages/Trainee/Data';
 import { withLoaderAndMessageHOC } from '../HOC';
 
@@ -38,8 +38,12 @@ const useStyles = theme => ({
 
 class SimpleTable extends Component {
   TablePaginationActions = () => {
-    const { onChangeForwardPage, onChangeBackwardPage, page } = this.props;
+    const { onChangeForwardPage, onChangeBackwardPage, page, count, rowsPerPage } = this.props;
     const theme = useTheme();
+
+    const handleFirstPageButtonClick = (event) => {
+      onChangeBackwardPage(event, 0);
+    };
 
     const handleBackButtonClick = (event) => {
       onChangeBackwardPage(event, page - 1);
@@ -49,8 +53,19 @@ class SimpleTable extends Component {
       onChangeForwardPage(event, page + 1);
     };
 
+    const handleLastPageButtonClick = (event) => {
+      onChangeForwardPage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+    };
+
     return (
       <React.Fragment>
+        <IconButton
+          onClick={handleFirstPageButtonClick}
+          disabled={page === 0}
+          aria-label="First Page"
+        >
+          {theme.direction === 'rtl' ? <LastPage /> : <FirstPage />}
+        </IconButton>
         <IconButton onClick={handleBackButtonClick} disabled={page === 0} aria-label="Previous Page">
           {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
         </IconButton>
@@ -59,6 +74,13 @@ class SimpleTable extends Component {
           aria-label="Next Page"
         >
           {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+        </IconButton>
+        <IconButton
+          onClick={handleLastPageButtonClick}
+          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+          aria-label="Last Page"
+        >
+          {theme.direction === 'rtl' ? <FirstPage /> : <LastPage />}
         </IconButton>
       </React.Fragment>
     );
