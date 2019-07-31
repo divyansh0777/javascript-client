@@ -55,14 +55,14 @@ class App extends Component {
   // }
 
   /* -------------Day 6-----------------------------------------*/
-  // render() {
-  //   return (
-  //   <div style={AppCss.mainDiv}>
-  //    <InputDemo />
-  //   </div>
-  //   );
-  // }
-  // }
+  render() {
+    return (
+    <div style={AppCss.mainDiv}>
+     <InputDemo />
+    </div>
+    );
+  }
+  }
 
   /* -------------Day 7-----------------------------------------*/
 
@@ -167,17 +167,17 @@ class App extends Component {
 
   // /* -------------Day 16,17-----------------------------------------*/
 
-  render() {
-    return (
-      <React.Fragment>
-        <SnackBarProvider>
-          <Router>
-            <StartRouting />
-          </Router>
-        </SnackBarProvider>
-      </React.Fragment>
-    );
-  }
-}
+//   render() {
+//     return (
+//       <React.Fragment>
+//         <SnackBarProvider>
+//           <Router>
+//             <StartRouting />
+//           </Router>
+//         </SnackBarProvider>
+//       </React.Fragment>
+//     );
+//   }
+// }
 
 export default App;
