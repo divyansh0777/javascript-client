@@ -8,8 +8,9 @@ import {
   Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button,
 } from '@material-ui/core';
 import { snackBarHOC } from '../../../../components';
-import { getDateFormat } from '../../Data';
+import { LoaderOnButtonHOC } from '../../../../components/HOC';
 
+const LoaderButton = LoaderOnButtonHOC(Button);
 class DeleteDialog extends Component {
   handleClose = () => {
 	  const { onClose } = this.props;
@@ -17,21 +18,12 @@ class DeleteDialog extends Component {
   };
 
   handleSubmit = () => {
-    const {
-      onSubmit, onClose, data, handleOpenSnack,
-    } = this.props;
-    if (data.createdAt > getDateFormat('2019-02-14')) {
-      handleOpenSnack('Trainee Deleted Successfully', '#4BB543')();
-      onClose();
-    } else {
-      onSubmit(data);
-      handleOpenSnack('Sorry trainee cannot be deleted', '#FF0000')();
-      onClose();
-    }
+    const { onSubmit, data } = this.props;
+    onSubmit(data);
   }
 
   render() {
-    const { open } = this.props;
+    const { open, actionLoader } = this.props;
     return (
       <React.Fragment>
         <Dialog
@@ -50,9 +42,12 @@ class DeleteDialog extends Component {
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button onClick={this.handleSubmit} color="primary" autofocus>
-              Delete
-            </Button>
+            <LoaderButton
+              onClick={this.handleSubmit}
+              color="primary"
+              autofocus
+              loader={actionLoader}
+            />
           </DialogActions>
         </Dialog>
       </React.Fragment>

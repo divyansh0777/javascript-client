@@ -45,17 +45,29 @@ class InputDemo extends Component {
 	  if (select === 'Cricket') {
 	    return (
   <React.Fragment>
-    <Radio name="Cricketer" text="Wicket Keeper" value="Wicket Keeper" onClick={this.handleRadio} />
-    <Radio name="Cricketer" text="Batsman" value="Batsman" onClick={this.handleRadio} />
-    <Radio name="Cricketer" text="Bowler" value="Bowler" onClick={this.handleRadio} />
-    <Radio name="Cricketer" text="Fielder" value="Fielder" onClick={this.handleRadio} />
+    <div>
+      <Radio name="Cricketer" text="Wicket Keeper" value="Wicket Keeper" onClick={this.handleRadio} />
+    </div>
+    <div>
+      <Radio name="Cricketer" text="Batsman" value="Batsman" onClick={this.handleRadio} />
+    </div>
+    <div>
+      <Radio name="Cricketer" text="Bowler" value="Bowler" onClick={this.handleRadio} />
+    </div>
+    <div>
+      <Radio name="Cricketer" text="Fielder" value="Fielder" onClick={this.handleRadio} />
+    </div>
   </React.Fragment>
 	  	);
 	  } if (select === 'Football') {
 	    return (
   <React.Fragment>
-    <Radio name="Football" text="Defender" value="Defender" onClick={this.handleRadio} />
-    <Radio name="Football" text="Striker" value="Striker" onClick={this.handleRadio} />
+    <div>
+      <Radio name="Football" text="Defender" value="Defender" onClick={this.handleRadio} />
+    </div>
+    <div>
+      <Radio name="Football" text="Striker" value="Striker" onClick={this.handleRadio} />
+    </div>
   </React.Fragment>
 	    );
 	  }

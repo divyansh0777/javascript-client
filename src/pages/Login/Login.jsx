@@ -18,13 +18,11 @@ import {
 import {
   Visibility, VisibilityOff,
 } from '@material-ui/icons';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import React, { Component } from 'react';
-import Axios from 'axios';
 import yupValidationSchema from './yupValidationSchema';
-import { SnackBarContext } from '../../components';
-import { Trainee } from '../Trainee';
+import { snackBarHOC } from '../../components';
 import { callLoginApi } from '../../libs';
 
 const useStyles = theme => ({
@@ -74,23 +72,26 @@ class Login extends Component {
 
 	/*---------------------------------*/
 
-	handleSubmit = handleSnackBar => (event) => {
+	handleSubmit = async (event) => {
 	  const { email, password } = this.state;
-	  const { history } = this.props;
+	  const { handleOpenSnack, history } = this.props;
 	  this.setState({
 	    loader: true,
 	  });
-	  const data = { email, password, history };
-	  callLoginApi(data, this.setLoaderDefault(handleSnackBar));
+	  const data = { email, password };
+	  try {
+	    const response = await callLoginApi(data);
+	    await localStorage.setItem('token', response.data.data);
+	    history.push('/trainee');
+	  } catch (error) {
+	    handleOpenSnack('Something went wrong ! Login Failed..', 'error')();
+	    this.setState({
+	      loader: false,
+	    });
+	  }
 	};
 
-    /*---------------------------------*/
-    setLoaderDefault = handleSnackBar => () => {
-      this.setState({
-        loader: false,
-      });
-      handleSnackBar();
-    }
+	/*---------------------------------*/
 
   handleEmail = (event) => {
     this.setState({
@@ -165,81 +166,75 @@ class Login extends Component {
 	  } = this.state;
 	  return (
         <div>
-          <SnackBarContext.Consumer>
-            {
-              handleSnackBar => (
-                <Container maxWidth="sm">
-                <ThemeProvider theme={theme}>
-                  <form className={classes.form}>
-                      <Paper className={classes.paper} elevation={3}>
-                        <Avatar
-                          alt="Remy Sharp"
-                          src="/images/login_lock.png"
-                          className={classes.bigAvatar}
-                        />
-                        <Typography
-                          variant="h4"
-                        >Login
-                        </Typography>
-                        <FormControl fullWidth>
-                          <TextField
-                            className={classes.input}
-                            error={emailTouched && !!this.getFieldError('email')}
-                            helperText={emailTouched && this.getFieldError('email')}
-                            autoComplete="on"
-                            autoFocus
-                            margin="dense"
-                            id="email"
-                            label="Enter Email ID"
-                            type="email"
-                            onFocus={this.handleTouch('emailTouched')}
-                            onChange={this.handleEmail}
-                          />
-                        </FormControl>
-                        <FormControl fullWidth>
-                          <TextField
-                            className={classes.input}
-                            error={passwordTouched && !!this.getFieldError('password')}
-                            helperText={passwordTouched && this.getFieldError('password')}
-                            autoComplete="on"
-                            label="Password"
-                            type={showPassword ? 'text' : 'password'}
-                            onFocus={this.handleTouch('passwordTouched')}
-                            onChange={this.handlePassword}
-                            InputProps={{
-                              endAdornment:
-                                <InputAdornment position="end">
-                                <IconButton aria-label="Toggle password visibility" onClick={this.handleClickShowPassword}>
-                                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                                </IconButton>
-                                </InputAdornment>,
-                            }}
-                          />
-                        </FormControl>
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          color="primary"
-                          className={classes.input}
-                          disabled={(!password.length && !email.length) || isError || !emailTouched || !passwordTouched || loader}
-                          onClick={this.handleSubmit(handleSnackBar('Login Failed', '#FF0000'))}
-                        >
-                          {
-                            loader
-                              ? <CircularProgress />
-                              : submitButtonValue
-                          }
-                        </Button>
-                      </Paper>
-                  </form>
-                </ThemeProvider>
-                </Container>
-              )
-            }
-          </SnackBarContext.Consumer>
+          <Container maxWidth="sm">
+          <ThemeProvider theme={theme}>
+            <form className={classes.form}>
+                <Paper className={classes.paper} elevation={3}>
+                  <Avatar
+                    alt="Remy Sharp"
+                    src="/images/login_lock.png"
+                    className={classes.bigAvatar}
+                  />
+                  <Typography
+                    variant="h4"
+                  >Login
+                  </Typography>
+                  <FormControl fullWidth>
+                    <TextField
+                      className={classes.input}
+                      error={emailTouched && !!this.getFieldError('email')}
+                      helperText={emailTouched && this.getFieldError('email')}
+                      autoComplete="on"
+                      autoFocus
+                      margin="dense"
+                      id="email"
+                      label="Enter Email ID"
+                      type="email"
+                      onFocus={this.handleTouch('emailTouched')}
+                      onChange={this.handleEmail}
+                    />
+                  </FormControl>
+                  <FormControl fullWidth>
+                    <TextField
+                      className={classes.input}
+                      error={passwordTouched && !!this.getFieldError('password')}
+                      helperText={passwordTouched && this.getFieldError('password')}
+                      autoComplete="on"
+                      label="Password"
+                      type={showPassword ? 'text' : 'password'}
+                      onFocus={this.handleTouch('passwordTouched')}
+                      onChange={this.handlePassword}
+                      InputProps={{
+                        endAdornment:
+                          <InputAdornment position="end">
+                          <IconButton aria-label="Toggle password visibility" onClick={this.handleClickShowPassword}>
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                          </InputAdornment>,
+                      }}
+                    />
+                  </FormControl>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.input}
+                    disabled={(!password.length && !email.length) || isError || !emailTouched || !passwordTouched || loader}
+                    onClick={this.handleSubmit}
+                  >
+                    {
+                      loader
+                        ? <CircularProgress />
+                        : submitButtonValue
+                    }
+                  </Button>
+                </Paper>
+            </form>
+          </ThemeProvider>
+          </Container>
         </div>
 	    );
 	}
 }
 
-export default withStyles(useStyles)(Login);
+export default snackBarHOC(withStyles(useStyles)(Login));

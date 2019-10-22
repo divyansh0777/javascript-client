@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-mixed-spaces-and-tabs */
 /* eslint-disable no-tabs */
 /* eslint-disable react/prop-types */
@@ -7,12 +8,24 @@ import {
   Dialog, DialogTitle, DialogContent, Button, TextField, FormControl, Grid, DialogActions,
 } from '@material-ui/core';
 import { snackBarHOC } from '../../../../components';
+import { LoaderOnButtonHOC } from '../../../../components/HOC';
 
+const LoaderButton = LoaderOnButtonHOC(Button);
 class EditDialog extends Component {
   state = {
     name: '',
     email: '',
-    valueChanged: true,
+    _id: '',
+    valueChanged: false,
+  }
+
+  async componentWillMount() {
+    const { data } = this.props;
+    this.setState({
+      name: data.name,
+      email: data.email,
+      _id: data._id,
+    });
   }
 
   handleClose = () => {
@@ -20,40 +33,30 @@ class EditDialog extends Component {
 	  onClose();
   };
 
-  handleSubmit = () => {
-    const { onClose, onSubmit, handleOpenSnack } = this.props;
+  handleSubmit = async () => {
+    const { onSubmit } = this.props;
     onSubmit(this.state);
-    handleOpenSnack('Trainee Edited Successfully', '#4BB543')();
-    onClose();
   }
 
   handleNameChange = (event) => {
     this.setState({
       name: event.target.value,
-      valueChanged: false,
+      valueChanged: true,
     });
   }
 
   handleEmailChange = (event) => {
     this.setState({
       email: event.target.value,
-      valueChanged: false,
-    });
-  }
-
-  setData = () => {
-    const { data } = this.props;
-    this.setData({
-      name: data.name,
-      email: data.email,
+      valueChanged: true,
     });
   }
 
   render() {
     const {
-      open, onClose, data,
+      open, onClose, actionLoader,
     } = this.props;
-    const { valueChanged } = this.state;
+    const { valueChanged, name, email } = this.state;
     return (
       <React.Fragment>
         <Dialog
@@ -71,11 +74,13 @@ class EditDialog extends Component {
                     <TextField
                       autoComplete="off"
                       autoFocus
+                      placeholder="Enter your name"
                       margin="dense"
                       id="name"
                       type="text"
                       onChange={this.handleNameChange}
-                      defaultValue={data.name}
+                      defaultValue={name}
+                      label="Name"
                     />
                   </FormControl>
                 </Grid>
@@ -83,11 +88,13 @@ class EditDialog extends Component {
                   <FormControl fullWidth>
                     <TextField
                       autoComplete="off"
+                      placeholder="Enter your email ID"
                       margin="dense"
                       id="email"
                       type="email"
                       onChange={this.handleEmailChange}
-                      defaultValue={data.email}
+                      defaultValue={email}
+                      label="Email"
                     />
                   </FormControl>
                 </Grid>
@@ -98,13 +105,12 @@ class EditDialog extends Component {
             <Button onClick={this.handleClose} color="primary">
               Cancel
             </Button>
-            <Button
-              disabled={valueChanged}
+            <LoaderButton
+              disabled={!valueChanged}
               onClick={this.handleSubmit}
               color="primary"
-            >
-                Submit
-            </Button>
+              loader={actionLoader}
+            />
           </DialogActions>
         </Dialog>
       </React.Fragment>
