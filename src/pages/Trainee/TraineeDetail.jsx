@@ -81,30 +81,26 @@ class TraineeDetail extends Component {
 
   getImage = (_id) => {
     const { classes, location } = this.props;
-    return (
-      <Avatar src="/images/defaultProfileImage.png" className={classes.bigAvatar} />
-    );
-    // const { classes } = this.props;
-    // const image = location.state.data.map(key => (
-    //   key._id === _id
-    //     ? (
-    //       <React.Fragment key={key._id}>
-    //         <Grid
-    //           key={key._id}
-    //           container
-    //           direction="row"
-    //           justify="center"
-    //           alignItems="center"
-    //         >
-    //           <Grid key={key.name} item>
-    //             <Avatar alt="Remy Sharp" key={key.src} src={key.src} className={classes.bigAvatar} />
-    //           </Grid>
-    //         </Grid>
-    //       </React.Fragment>
-    //     )
-    //     : ''
-    // ));
-    // return image;
+    const image = location.state.data && location.state.data.map(key => (
+      key._id === _id
+        ? (
+          <React.Fragment key={key._id}>
+            <Grid
+              key={key._id}
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+            >
+              <Grid key={key.name} item>
+                <Avatar alt="Remy Sharp" key={key.src} src={key.src} className={classes.bigAvatar} />
+              </Grid>
+            </Grid>
+          </React.Fragment>
+        )
+        : ''
+    ));
+    return image;
   };
 
   render() {

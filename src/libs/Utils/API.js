@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import Axios from 'axios';
 import { configuration } from '../../configs/configuration';
 import * as nextApi from './APIConstants';
@@ -21,8 +22,11 @@ export const callLoginApi = async (data) => {
 export const getTraineeData = async (limit, skip) => {
   try {
     const response = await Axios.get(`${configuration.url}${nextApi.trainee}?limit=${limit}&skip=${skip}`);
+    // const response = await Axios.get(`${configuration.url}/api/user`);
+    console.log(response);
     return response;
   } catch (err) {
+    console.log(err);
     return err;
   }
 };

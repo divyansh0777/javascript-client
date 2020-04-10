@@ -13,6 +13,7 @@ import {
   isDateAfter,
   traineeTableColumns,
   traineeTableId,
+  traineeListData,
 } from './Data';
 import { AddDialog, DeleteDialog, EditDialog } from './Component';
 import {
@@ -26,44 +27,44 @@ const useStyles = () => ({
 });
 
 class TraineeList extends Component {
-	state = {
-	  open: false,
-	  loader: false,
-	  tableLoader: true,
-	  tableOrder: 'asc',
-	  orderBy: 'name',
-	  tableDataLoaded: false,
-	  tableRowsPerPage: 5,
-	  tablePage: 0,
-	  tableRowsPerPageOptions: [],
-	  deleteDialog: false,
-	  editDialog: false,
-	  traineeData: [],
-	  traineeTableData: [],
-	  limit: 0,
-	  skip: 0,
-	  actionLoader: false,
-	}
+  state = {
+    open: false,
+    loader: false,
+    tableLoader: true,
+    tableOrder: 'asc',
+    orderBy: 'name',
+    tableDataLoaded: false,
+    tableRowsPerPage: 5,
+    tablePage: 0,
+    tableRowsPerPageOptions: [],
+    deleteDialog: false,
+    editDialog: false,
+    traineeData: [],
+    traineeTableData: [],
+    limit: 0,
+    skip: 0,
+    actionLoader: false,
+  }
 
-	async componentDidMount() {
-	  const { limit, skip } = this.state;
-	  await this.handleTableData(limit, skip);
-	  await this.setState({
-	    tableDataLoaded: true,
-	  });
-	}
+  async componentDidMount() {
+    const { limit, skip } = this.state;
+    await this.handleTableData(limit, skip);
+    await this.setState({
+      tableDataLoaded: true,
+    });
+  }
 
-	handleOpen = () => {
-	  this.setState({
-	    open: true,
-	  });
-	}
+  handleOpen = () => {
+    this.setState({
+      open: true,
+    });
+  }
 
-	handleClose = field => () => {
-	  this.setState({
-	    [field]: false,
-	  });
-	}
+  handleClose = field => () => {
+    this.setState({
+      [field]: false,
+    });
+  }
 
   handleTableActionDialogs = field => (event, _id) => {
     const { traineeTableData } = this.state;
@@ -165,7 +166,7 @@ class TraineeList extends Component {
 
   handleOnChangeRowsPerPage = (event) => {
     this.setState({
-	    tableRowsPerPage: event.target.value,
+      tableRowsPerPage: event.target.value,
     });
   }
 
@@ -177,11 +178,12 @@ class TraineeList extends Component {
     });
     try {
       const response = await getTraineeData(limit, skip);
-      this.setState({
+      await this.setState({
         tableLoader: false,
-        traineeTableData: response.data.data.records,
+        // traineeTableData: response.data.data.records,
+        traineeTableData: traineeListData,
       });
-	      handleOpenSnack('Table Updated', 'success')();
+      handleOpenSnack('Table Updated', 'success')();
     } catch (err) {
       this.setState({
         tableLoader: false,
@@ -210,108 +212,108 @@ class TraineeList extends Component {
     this.componentDidMount();
   }
 
-	handleSubmit = async (data) => {
-	  const { handleOpenSnack } = this.props;
-	  this.setState({
-	    loader: true,
-	  });
-	  try {
-	      const response = await postTraineeData(data);
-	      this.setState({
-	        open: false,
-	        loader: false,
-	        tableDataLoaded: false,
-	      });
-	      handleOpenSnack('Trainee added Successfully', 'success')();
-	      this.componentDidMount();
-	  } catch (err) {
-	    this.setState({
-	      loader: false,
-	    });
-	    this.handleClose('open')();
-	    handleOpenSnack('Trainee not added !', 'error')();
-	  }
-	};
+  handleSubmit = async (data) => {
+    const { handleOpenSnack } = this.props;
+    this.setState({
+      loader: true,
+    });
+    try {
+      const response = await postTraineeData(data);
+      this.setState({
+        open: false,
+        loader: false,
+        tableDataLoaded: false,
+      });
+      handleOpenSnack('Trainee added Successfully', 'success')();
+      this.componentDidMount();
+    } catch (err) {
+      this.setState({
+        loader: false,
+      });
+      this.handleClose('open')();
+      handleOpenSnack('Trainee not added !', 'error')();
+    }
+  };
 
-	render() {
-	  const {
-	    open, tableOrder, orderBy, tablePage, tableRowsPerPage, tableRowsPerPageOptions, deleteDialog,
-	    editDialog, traineeData, loader, tableLoader, traineeTableData, actionLoader,
-	  } = this.state;
-	  const tableActions = [
-	    {
-	      icons: <Edit />,
-	      handler: this.handleTableActionDialogs('editDialog'),
-	    },
-	    {
-	      icons: <Delete />,
-	      handler: this.handleTableActionDialogs('deleteDialog'),
-	    },
-	  ];
+  render() {
+    const {
+      open, tableOrder, orderBy, tablePage, tableRowsPerPage, tableRowsPerPageOptions, deleteDialog,
+      editDialog, traineeData, loader, tableLoader, traineeTableData, actionLoader,
+    } = this.state;
+    const tableActions = [
+      {
+        icons: <Edit />,
+        handler: this.handleTableActionDialogs('editDialog'),
+      },
+      {
+        icons: <Delete />,
+        handler: this.handleTableActionDialogs('deleteDialog'),
+      },
+    ];
 
-	  return (
-  <React.Fragment>
-    <Button variant="contained" color="primary" onClick={this.handleOpen}>Add Trainee List</Button>
-    {
-            open
-              ? (
-                <AddDialog
-                  open={open}
-                  loader={loader}
-                  onClose={this.handleClose('open')}
-                  onSubmit={this.handleSubmit}
-                />
-              )
-              : <Paragraph text="Click Button to Show Dialog" />
-          }
-    {
-      <SimpleTable
-        tableId={traineeTableId}
-        tableData={traineeTableData}
-        tableColumns={traineeTableColumns}
-        orderBy={orderBy}
-        order={tableOrder}
-        onSort={this.handleTableSorting}
-        onSelect={this.handleToShowTableData}
-        count={traineeTableData.length}
-        rowsPerPage={tableRowsPerPage}
-        page={tablePage}
-        rowsPerPageOptions={tableRowsPerPageOptions}
-        onChangeRowsPerPage={this.handleOnChangeRowsPerPage}
-        onChangeForwardPage={this.handleOnChangeForwardPage}
-        onChangeBackwardPage={this.handleOnChangeBackwardPage}
-        actions={tableActions}
-        loader={tableLoader}
-      />
-          }
-    {
-            deleteDialog
-              ? (
-                <DeleteDialog
-                  open={deleteDialog}
-                  onClose={this.handleClose('deleteDialog')}
-                  onSubmit={this.handleDeleteSubmit}
-                  data={traineeData}
-                  actionLoader={actionLoader}
-                />
-              ) : ''
-          }
-    {
-            editDialog
-              ? (
-                <EditDialog
-                  open={editDialog}
-                  onClose={this.handleClose('editDialog')}
-                  onSubmit={this.handleEditSubmit}
-                  data={traineeData}
-                  actionLoader={actionLoader}
-                />
-              ) : ''
-          }
-    <br />
-  </React.Fragment>
-	  );
-	}
+    return (
+      <React.Fragment>
+        <Button variant="contained" color="primary" onClick={this.handleOpen}>Add Trainee List</Button>
+        {
+          open
+            ? (
+              <AddDialog
+                open={open}
+                loader={loader}
+                onClose={this.handleClose('open')}
+                onSubmit={this.handleSubmit}
+              />
+            )
+            : <Paragraph text="Click Button to Show Dialog" />
+        }
+        {
+          <SimpleTable
+            tableId={traineeTableId}
+            tableData={traineeTableData}
+            tableColumns={traineeTableColumns}
+            orderBy={orderBy}
+            order={tableOrder}
+            onSort={this.handleTableSorting}
+            onSelect={this.handleToShowTableData}
+            count={traineeTableData.length}
+            rowsPerPage={tableRowsPerPage}
+            page={tablePage}
+            rowsPerPageOptions={tableRowsPerPageOptions}
+            onChangeRowsPerPage={this.handleOnChangeRowsPerPage}
+            onChangeForwardPage={this.handleOnChangeForwardPage}
+            onChangeBackwardPage={this.handleOnChangeBackwardPage}
+            actions={tableActions}
+            loader={tableLoader}
+          />
+        }
+        {
+          deleteDialog
+            ? (
+              <DeleteDialog
+                open={deleteDialog}
+                onClose={this.handleClose('deleteDialog')}
+                onSubmit={this.handleDeleteSubmit}
+                data={traineeData}
+                actionLoader={actionLoader}
+              />
+            ) : ''
+        }
+        {
+          editDialog
+            ? (
+              <EditDialog
+                open={editDialog}
+                onClose={this.handleClose('editDialog')}
+                onSubmit={this.handleEditSubmit}
+                data={traineeData}
+                actionLoader={actionLoader}
+              />
+            ) : ''
+        }
+        <br />
+      </React.Fragment>
+    );
+  }
 }
 
 export default snackBarHOC(withStyles(useStyles)(TraineeList));
